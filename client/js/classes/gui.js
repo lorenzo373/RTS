@@ -15,6 +15,7 @@ class GUI {
 	startFPSInterval() {
 		this.fpsInterval = setInterval(function() {
 			Game.GUI.fpsCounter.text = 'FPS: ' + Game.fps;
+			Game.frame = 0;
 		}, 1000);
 	}
 }
