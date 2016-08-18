@@ -58,7 +58,7 @@ class SceneHandler {
 			a[0] - b[0]
 		});
 
-		for(var i = 0; i < scenes.length; scenes++) {
+		for(var i = 0; i < scenes.length; i++) {
 			if(scenes[i][2]) {
 				Game.renderer.render(scenes[i][1]);
 			}
