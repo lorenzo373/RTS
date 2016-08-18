@@ -5,8 +5,11 @@ class GUI {
 		this.fpsCounter.x = 5;
 		this.fpsCounter.y = 5;
 
+		// Create GUI scene
+		this.scene = Game.sceneHandler.createScene('GUI', true);
+		
 		// Add elements to root scene
-		Game.rootScene.addChild(this.fpsCounter);
+		this.scene.addChild(this.fpsCounter);
 
 		// Start FPS update interval
 		this.startFPSInterval();

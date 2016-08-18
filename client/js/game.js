@@ -9,7 +9,7 @@ class Game {
 		document.body.appendChild(Game.renderer.view);
 
 		// Create root scene
-		Game.rootScene = new PIXI.Container();
+		Game.sceneHandler = new SceneHandler();
 
 		// Bind events & create handlers
 		window.onresize = Game.onResize;
@@ -35,9 +35,8 @@ class Game {
 		// Request animation frame
 		requestAnimationFrame(Game.render);
 
-		// Render root scene
-		// TODO: create scene handler & render all different scene dependant on current game state
-		Game.renderer.render(Game.rootScene);
+		// Render scenes
+		Game.sceneHandler.render();
 	}
 
 	static onResize() {
