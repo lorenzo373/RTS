@@ -1,4 +1,4 @@
-class Input() {
+class Input {
 	constructor() {
 		// Define variables
 		this.onMouseDownEvents = {};
@@ -21,55 +21,55 @@ class Input() {
 	}
 
 	mouseDown(e) {
-		for(var key in this.onMouseDownEvents) {
-			this.onMouseDownEvents[key](e);
+		for(var key in Game.input.onMouseDownEvents) {
+			Game.input.onMouseDownEvents[key](e);
 		}
 
 		return true;
 	}
 
 	mouseUp(e) {
-		for(var key in this.onMouseUpEvents) {
-			this.onMouseUpEvents[key](e);
+		for(var key in Game.input.onMouseUpEvents) {
+			Game.input.onMouseUpEvents[key](e);
 		}
 
 		return true;
 	}
 
 	mouseMove(e) {
-		for(var key in this.onMouseMoveEvents) {
-			this.onMouseMoveEvents[key](e);
+		for(var key in Game.input.onMouseMoveEvents) {
+			Game.input.onMouseMoveEvents[key](e);
 		}
 
 		return true;
 	}
 
 	mouseWheel(e) {
-		for(var key in this.onMouseWheelEvents) {
-			this.onMouseWheelEvents[key](e);
+		for(var key in Game.input.onMouseWheelEvents) {
+			Game.input.onMouseWheelEvents[key](e);
 		}
 
 		return true;
 	}
 
 	keyDown(e) {
-		for(var key in this.onKeyDownEvents) {
-			this.onKeyDownEvents[key](e);
+		for(var key in Game.input.onKeyDownEvents) {
+			Game.input.onKeyDownEvents[key](e);
 		}
 
-		this.keysDown.push(e.which);
+		Game.input.keysDown.push(e.which);
 
 		return true;
 	}
 
 	keyUp(e) {
-		for(var key in this.onKeyUpEvents) {
-			this.onKeyUpEvents[key](e);
+		for(var key in Game.input.onKeyUpEvents) {
+			Game.input.onKeyUpEvents[key](e);
 		}
 
-		var index = this.keysDown.indexOf(e.which);
+		var index = Game.input.keysDown.indexOf(e.which);
 		if(index > -1) {
-			this.keysDown.splice(index, 1);
+			Game.input.keysDown.splice(index, 1);
 		}
 
 		return true;

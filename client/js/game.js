@@ -8,6 +8,9 @@ class Game {
 		// Add renderer to document
 		document.body.appendChild(Game.renderer.view);
 
+		// Create input handler
+		Game.input = new Input();
+
 		// Create root scene
 		Game.sceneHandler = new SceneHandler();
 
@@ -17,6 +20,9 @@ class Game {
 
 		// Init GUI
 		Game.GUI = new GUI();
+
+		// Create map
+		Game.map = new Map(100, 100);
 
 		// Start render loop
 		Game.frame = 0;
@@ -51,13 +57,13 @@ class Game {
 	}
 
 	static registerUpdate(id, func) {
-		Game.updateEvents[key] = func;
+		Game.updateEvents[id] = func;
 
 		return true;
 	}
 
 	static removeUpdate(id) {
-		delete Game.updateEvents[key];
+		delete Game.updateEvents[id];
 
 		return true;
 	}
