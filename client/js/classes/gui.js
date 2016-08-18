@@ -6,7 +6,7 @@ class GUI {
 		this.fpsCounter.y = 5;
 
 		// Create GUI scene
-		this.scene = Game.sceneHandler.createScene('GUI', true);
+		this.scene = Game.sceneHandler.createScene('GUI', true, 10);
 		
 		// Add elements to root scene
 		this.scene.addChild(this.fpsCounter);

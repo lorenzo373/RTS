@@ -3,13 +3,15 @@ class SceneHandler {
 		this.scenes = {};
 	}
 
-	createScene(name, visible) {
+	createScene(name, visible, index) {
 		visible = visible || false;
+		index = index || 0;
 		var scene = new PIXI.Container();
 
 		this.scenes[name] = {
 			scene: scene,
-			visible: visible
+			visible: visible,
+			index: index
 		};
 
 		return scene;
@@ -35,11 +37,33 @@ class SceneHandler {
 		return true;
 	}
 
+	setIndex(name, index) {
+		if(!this.scenes.hasOwnProperty(name)) {
+			return false;
+		}
+
+		this.scenes[name].index = index;
+
+		return true;
+	}
+
 	render() {
+		var scenes = [];
+
 		for(var key in this.scenes) {
-			if(this.scenes[key].visible) {
-				Game.renderer.render(this.scenes[key].scene);
+			scenes.push([this.scenes[key].index, this.scenes[key].scene, this.scenes[key].visible]);
+		}
+
+		scenes.sort((a, b) => {
+			a[0] - b[0]
+		});
+
+		for(var i = 0; i < scenes.length; scenes++) {
+			if(scenes[i][2]) {
+				Game.renderer.render(scenes[i][1]);
 			}
 		}
+
+		return true;
 	}
 }
