@@ -16,6 +16,7 @@ class Input {
 		document.onwheel = this.mouseWheel;
 		document.onkeydown = this.keyDown;
 		document.onkeyup = this.keyUp;
+		document.oncontextmenu = this.contextMenu;
 
 		return this;
 	}
@@ -73,6 +74,11 @@ class Input {
 		}
 
 		return true;
+	}
+
+	contextMenu(e) {
+		e.preventDefault();
+		return false;
 	}
 
 	onMouseDown(id, func) {
