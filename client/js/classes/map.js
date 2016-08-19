@@ -20,7 +20,10 @@ class Map {
 		let waterTiles = ['water.png', 'water2.png'];
 		let sandTiles = ['sand.png', 'sand2.png'];
 		let grassTiles = ['grass.png', 'grass2.png'];
+		let taigaTiles = ['taiga.png', 'taiga2.png'];
 		let rockTiles = ['rock.png', 'rock2.png'];
+		let snowTiles = ['snow.png', 'snow2.png'];
+		let trees = ['tree4.png', 'tree5.png', 'tree6.png'];
 
 		var pos;
 		var scale;
@@ -54,19 +57,37 @@ class Map {
 					var value = Math.abs(noise.simplex2(x / this.noise.x, y / this.noise.y));
 				}
 
-				var tile;
-				if(value < 0.15) tile = waterTiles[Math.floor(Math.random() * waterTiles.length)];
-				else if(value < 0.35) tile = sandTiles[Math.floor(Math.random() * sandTiles.length)];
-				else if(value < 0.75) tile = grassTiles[Math.floor(Math.random() * grassTiles.length)];
-				else tile = rockTiles[Math.floor(Math.random() * rockTiles.length)];
+				var tileName;
+				if(value < 0.08) tileName = 'ocean.png';
+				else if(value < 0.15) tileName = tileName = waterTiles[Math.floor(Math.random() * waterTiles.length)];
+				else if(value < 0.35) tileName = sandTiles[Math.floor(Math.random() * sandTiles.length)];
+				else if(value < 0.55) tileName = grassTiles[Math.floor(Math.random() * grassTiles.length)];
+				else if(value < 0.75) tileName = taigaTiles[Math.floor(Math.random() * taigaTiles.length)];
+				else if(value < 0.90) tileName = rockTiles[Math.floor(Math.random() * rockTiles.length)];
+				else tileName = snowTiles[Math.floor(Math.random() * snowTiles.length)];
 
-				var texture = PIXI.Texture.fromImage('./assets/' + tile);
+				var texture = PIXI.Texture.fromImage('./assets/' + tileName);
 				var sprite = new PIXI.Sprite(texture);
 
 				sprite.position.x = x * 64;
 				sprite.position.y = y * 64;
 
 				this.scene.addChild(sprite);
+
+				if(value > 0.35 && value < 0.50) {
+					var rand = Math.floor(Math.random() * 100);
+
+					if(rand > 75) {
+						var treeText = PIXI.Texture.fromImage('./assets/' + trees[Math.floor(Math.random() * trees.length)]);
+						var tree = new PIXI.Sprite(treeText);
+
+						tree.position.x = x * 64;
+						tree.position.y = y * 64;
+
+						this.scene.addChild(tree);
+					}
+				}
+
 				this.map[x][y] = value;
 			}
 		}
@@ -100,8 +121,11 @@ class Map {
 			let direction = (e.deltaY < 0) ? 1 : -1;
 			let factor = (1 + direction * 0.1);
 
-			Game.map.scene.scale.x *= factor;
-			Game.map.scene.scale.y *= factor;
+
+			if((direction == -1 && Game.map.scene.scale.x > 0.15) || (direction == 1 && Game.map.scene.scale.x < 1.85)) {
+				Game.map.scene.scale.x *= factor;
+				Game.map.scene.scale.y *= factor;
+			}
 
 			// Zoom in on mouse position
 			// Broken updatetransform, fix in future
