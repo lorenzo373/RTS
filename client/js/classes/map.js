@@ -3,6 +3,7 @@ class Map {
 		this.width = width;
 		this.height = height;
 
+		this.generator = 'PERLIN';
 		this.noise = {
 			x: 45,
 			y: 45
@@ -47,9 +48,13 @@ class Map {
 					this.map[x] = [];
 				}
 
-				var value = Math.abs(noise.simplex2(x / this.noise.x, y / this.noise.y));
-				var tile;
+				if(this.generator == 'PERLIN') {
+					var value = Math.abs(noise.perlin2(x / this.noise.x, y / this.noise.y));
+				} else {
+					var value = Math.abs(noise.simplex2(x / this.noise.x, y / this.noise.y));
+				}
 
+				var tile;
 				if(value < 0.15) tile = waterTiles[Math.floor(Math.random() * waterTiles.length)];
 				else if(value < 0.35) tile = sandTiles[Math.floor(Math.random() * sandTiles.length)];
 				else if(value < 0.75) tile = grassTiles[Math.floor(Math.random() * grassTiles.length)];
