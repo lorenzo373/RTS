@@ -54,13 +54,13 @@ class Map {
 					var value = Math.abs(noise.simplex2(x / this.noise.x, y / this.noise.y));
 				}
 
-				var tile;
-				if(value < 0.15) tile = waterTiles[Math.floor(Math.random() * waterTiles.length)];
-				else if(value < 0.35) tile = sandTiles[Math.floor(Math.random() * sandTiles.length)];
-				else if(value < 0.75) tile = grassTiles[Math.floor(Math.random() * grassTiles.length)];
-				else tile = rockTiles[Math.floor(Math.random() * rockTiles.length)];
+				var tileName;
+				if(value < 0.15) tileName = waterTiles[Math.floor(Math.random() * waterTiles.length)];
+				else if(value < 0.35) tileName = sandTiles[Math.floor(Math.random() * sandTiles.length)];
+				else if(value < 0.75) tileName = grassTiles[Math.floor(Math.random() * grassTiles.length)];
+				else tileName = rockTiles[Math.floor(Math.random() * rockTiles.length)];
 
-				var texture = PIXI.Texture.fromImage('./assets/' + tile);
+				var texture = PIXI.Texture.fromImage('./assets/' + tileName);
 				var sprite = new PIXI.Sprite(texture);
 
 				sprite.position.x = x * 64;
@@ -100,8 +100,11 @@ class Map {
 			let direction = (e.deltaY < 0) ? 1 : -1;
 			let factor = (1 + direction * 0.1);
 
-			Game.map.scene.scale.x *= factor;
-			Game.map.scene.scale.y *= factor;
+
+			if((direction == -1 && Game.map.scene.scale.x > 0.15) || (direction == 1 && Game.map.scene.scale.x < 1.85)) {
+				Game.map.scene.scale.x *= factor;
+				Game.map.scene.scale.y *= factor;
+			}
 
 			// Zoom in on mouse position
 			// Broken updatetransform, fix in future

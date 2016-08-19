@@ -1,7 +1,7 @@
 class Game {
 	static init() {
 		// Create renderer
-		Game.renderer = PIXI.autoDetectRenderer(RENDERER_WIDTH, RENDERER_HEIGHT);
+		Game.renderer = PIXI.autoDetectRenderer(RENDERER_WIDTH, RENDERER_HEIGHT, { transparent: true });
 		Game.renderer.autoResize = true;
 		Game.renderer.resize(document.documentElement.clientWidth, document.documentElement.clientHeight);
 
