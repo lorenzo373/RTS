@@ -15,6 +15,7 @@ class Map {
 
 	load() {
 		let waterTiles = ['water.png', 'water2.png'];
+		let sandTiles = ['sand.png', 'sand2.png'];
 		let grassTiles = ['grass.png', 'grass2.png'];
 		let rockTiles = ['rock.png', 'rock2.png'];
 
@@ -33,8 +34,9 @@ class Map {
 				var value = Math.abs(noise.simplex2(x / 25, y / 25));
 				var tile;
 
-				if(value < 0.1) tile = waterTiles[Math.floor(Math.random() * waterTiles.length)];
-				else if(value < 0.5) tile = grassTiles[Math.floor(Math.random() * grassTiles.length)];
+				if(value < 0.15) tile = waterTiles[Math.floor(Math.random() * waterTiles.length)];
+				else if(value < 0.35) tile = sandTiles[Math.floor(Math.random() * sandTiles.length)];
+				else if(value < 0.75) tile = grassTiles[Math.floor(Math.random() * grassTiles.length)];
 				else tile = rockTiles[Math.floor(Math.random() * rockTiles.length)];
 
 				var texture = PIXI.Texture.fromImage('./assets/' + tile);
