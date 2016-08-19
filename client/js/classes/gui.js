@@ -4,24 +4,22 @@ class GUI {
 		this.scene = Game.sceneHandler.createScene('GUI', true, 10);
 
 		// Create Debug info
+		this.debugContainer = new PIXI.Container();
+		this.debugContainer.visible = false;
+
 		this.fpsCounter = new PIXI.Text('FPS: ', { fontFamily: 'Arial', fontSize: '24px', fill: "#FFFFFF" });
 		this.fpsCounter.x = 5;
 		this.fpsCounter.y = 5;
-		this.fpsCounter.visible = false;
-		this.scene.addChild(this.fpsCounter);
+		this.fpsCounter.visible = true;
+		this.debugContainer.addChild(this.fpsCounter);
 
 		this.activeScenes = new PIXI.Text('ACTIVE SCENES: ', { fontFamily: 'Arial', fontSize: '24px', fill: "#FFFFFF" });
 		this.activeScenes.x = 5;
 		this.activeScenes.y = 34;
-		this.activeScenes.visible = false;
-		this.scene.addChild(this.activeScenes);
+		this.activeScenes.visible = true;
+		this.debugContainer.addChild(this.activeScenes);
 
-		// TEST -> Works...
-		/*var texture = PIXI.Texture.fromImage('./assets/grass.png');
-		var sprite = new PIXI.Sprite(texture);
-		sprite.position.x = 50;
-		sprite.position.y = 50;
-		this.scene.addChild(sprite);*/
+		this.scene.addChild(this.debugContainer);
 
 		// Start FPS update interval
 		this.startFPSInterval();
@@ -46,8 +44,7 @@ class GUI {
 			switch(e.which) {
 				// 1
 				case 49:
-					Game.GUI.fpsCounter.visible = !Game.GUI.fpsCounter.visible;
-					Game.GUI.activeScenes.visible = !Game.GUI.activeScenes.visible;
+					Game.GUI.debugContainer.visible = !Game.GUI.debugContainer.visible;
 					break;
 			}
 		});
