@@ -69,13 +69,13 @@ class Map {
 
 			// Zoom in on mouse position
 			// Broken updatetransform, fix in future
-			//let before = this.getCoordinates(e.clientX, e.clientY);
-			//Game.map.scene.updateTransform();
-			//let after = this.getCoordinates(e.clientX, e.clientY);
+			let before = this.getCoordinates(e.clientX, e.clientY);
+			Game.map.scene.updateTransform();
+			let after = this.getCoordinates(e.clientX, e.clientY);
 
-			//Game.map.scene.position.x += (after.x - before.x) * Game.map.scene.scale.x;
-			//Game.map.scene.position.y += (after.y - before.y) * Game.map.scene.scale.y;
-			//Game.map.scene.updateTransform();
+			Game.map.scene.position.x += (after.x - before.x) * Game.map.scene.scale.x;
+			Game.map.scene.position.y += (after.y - before.y) * Game.map.scene.scale.y;
+			Game.map.scene.updateTransform();
 		});
 	}
 
