@@ -19,6 +19,12 @@ class GUI {
 		this.activeScenes.visible = true;
 		this.debugContainer.addChild(this.activeScenes);
 
+		this.mapNoise = new PIXI.Text('MAP NOISE X: \nMAP NOISE Y: ', { fontFamily: 'Arial', fontSize: '24px', fill: "#FFFFFF" });
+		this.mapNoise.x = 5;
+		this.mapNoise.y = 63;
+		this.mapNoise.visible = true;
+		this.debugContainer.addChild(this.mapNoise);
+
 		this.scene.addChild(this.debugContainer);
 
 		// Start FPS update interval
@@ -38,6 +44,7 @@ class GUI {
 	initEvents() {
 		Game.registerUpdate('GUI', frame => {
 			Game.GUI.activeScenes.text = 'ACTIVE SCENES: ' + Object.keys(Game.sceneHandler.scenes).length;
+			Game.GUI.mapNoise.text = 'MAP NOISE X: ' + Game.map.noise.y + '\nMAP NOISE Y: ' + Game.map.noise.y;
 		});
 
 		Game.input.onKeyDown('GUI', e => {
@@ -45,6 +52,10 @@ class GUI {
 				// 1
 				case 49:
 					Game.GUI.debugContainer.visible = !Game.GUI.debugContainer.visible;
+					break;
+				// 2
+				case 50:
+					Game.map.load();
 					break;
 			}
 		});
