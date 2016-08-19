@@ -51,16 +51,17 @@ class SceneHandler {
 		var scenes = [];
 
 		for(var key in this.scenes) {
-			scenes.push([this.scenes[key].index, this.scenes[key].scene, this.scenes[key].visible]);
+			scenes.push(this.scenes[key]);
 		}
 
+		// Sort scenes by index [lowest...highest]
 		scenes.sort((a, b) => {
-			a[0] - b[0]
+			return a.index - b.index 
 		});
 
 		for(var i = 0; i < scenes.length; i++) {
-			if(scenes[i][2]) {
-				Game.renderer.render(scenes[i][1]);
+			if(scenes[i].visible) {
+				Game.renderer.render(scenes[i].scene);
 			}
 		}
 
