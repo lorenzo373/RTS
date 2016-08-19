@@ -3,6 +3,11 @@ class Map {
 		this.width = width;
 		this.height = height;
 
+		this.noise = {
+			x: 45,
+			y: 45
+		};
+
 		// Create map scene
 		this.scene = Game.sceneHandler.createScene('map', true, 0);
 
@@ -27,11 +32,7 @@ class Map {
 					this.map[x] = [];
 				}
 
-				if(x % 100 === 0) {
-					//noise.seed(Math.random());
-				}
-
-				var value = Math.abs(noise.simplex2(x / 25, y / 25));
+				var value = Math.abs(noise.simplex2(x / this.noise.x, y / this.noise.y));
 				var tile;
 
 				if(value < 0.15) tile = waterTiles[Math.floor(Math.random() * waterTiles.length)];
