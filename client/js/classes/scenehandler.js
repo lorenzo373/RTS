@@ -16,6 +16,18 @@ class SceneHandler {
 		return scene;
 	}
 
+	destroyScene(name) {
+		if(!this.scenes.hasOwnProperty(name)) {
+			return false;
+		}
+		
+		var scene = this.scenes[name];
+		this.rootScene.removeChild(scene);
+		scene.destroy();
+
+		return true;
+	}
+
 	showScene(name) {
 		if(!this.scenes.hasOwnProperty(name)) {
 			return false;

@@ -8,9 +8,6 @@ class Map {
 			y: 45
 		};
 
-		// Create map scene
-		this.scene = Game.sceneHandler.createScene('map', true, 0);
-
 		// Load map
 		this.load();
 
@@ -24,8 +21,26 @@ class Map {
 		let grassTiles = ['grass.png', 'grass2.png'];
 		let rockTiles = ['rock.png', 'rock2.png'];
 
-		noise.seed(Math.random());
+		var pos;
+		var scale;
+		if(this.scene) {
+			pos = this.scene.position;
+			scale = this.scene.scale;
+		}
+
+		Game.sceneHandler.destroyScene('map');
+		this.scene = Game.sceneHandler.createScene('map', true, 0);
+
+		if(pos) {
+			this.scene.position = pos;
+			this.scene.scale = scale;
+		}
+
+		delete this.map;
 		this.map = [];
+
+		noise.seed(Math.random());
+
 		for(var y = 0; y < this.height; y++) {
 			for(var x = 0; x < this.width; x++) {
 				if(!this.map[x]) {

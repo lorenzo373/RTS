@@ -44,7 +44,7 @@ class GUI {
 	initEvents() {
 		Game.registerUpdate('GUI', frame => {
 			Game.GUI.activeScenes.text = 'ACTIVE SCENES: ' + Object.keys(Game.sceneHandler.scenes).length;
-			Game.GUI.mapNoise.text = 'MAP NOISE X: ' + Game.map.noise.y + '\nMAP NOISE Y: ' + Game.map.noise.y;
+			Game.GUI.mapNoise.text = 'MAP NOISE X: ' + Game.map.noise.x + '\nMAP NOISE Y: ' + Game.map.noise.y;
 		});
 
 		Game.input.onKeyDown('GUI', e => {
