@@ -14,8 +14,11 @@ class Map {
 	}
 
 	load() {
-		let tiles = ['grass.png', 'grass2.png', 'rock.png', 'water.png'];
+		let waterTiles = ['water.png', 'water2.png'];
+		let grassTiles = ['grass.png', 'grass2.png'];
+		let rockTiles = ['rock.png', 'rock2.png'];
 
+		noise.seed(Math.random());
 		this.map = [];
 		for(var y = 0; y < this.height; y++) {
 			for(var x = 0; x < this.width; x++) {
@@ -23,15 +26,25 @@ class Map {
 					this.map[x] = [];
 				}
 
-				this.map[x][y] = 0;
+				if(x % 100 === 0) {
+					//noise.seed(Math.random());
+				}
 
-				var texture = PIXI.Texture.fromImage('./assets/' + tiles[Math.floor(Math.random() * tiles.length)]);
+				var value = Math.abs(noise.simplex2(x / 25, y / 25));
+				var tile;
+
+				if(value < 0.1) tile = waterTiles[Math.floor(Math.random() * waterTiles.length)];
+				else if(value < 0.5) tile = grassTiles[Math.floor(Math.random() * grassTiles.length)];
+				else tile = rockTiles[Math.floor(Math.random() * rockTiles.length)];
+
+				var texture = PIXI.Texture.fromImage('./assets/' + tile);
 				var sprite = new PIXI.Sprite(texture);
 
 				sprite.position.x = x * 64;
 				sprite.position.y = y * 64;
 
 				this.scene.addChild(sprite);
+				this.map[x][y] = value;
 			}
 		}
 	}
