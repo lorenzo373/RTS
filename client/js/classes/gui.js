@@ -19,7 +19,7 @@ class GUI {
 		this.activeScenes.visible = true;
 		this.debugContainer.addChild(this.activeScenes);
 
-		this.mapNoise = new PIXI.Text('MAP NOISE X: \nMAP NOISE Y: ', { fontFamily: 'Arial', fontSize: '24px', fill: "#FFFFFF" });
+		this.mapNoise = new PIXI.Text('MAP NOISE X: \nMAP NOISE Y: \nMAP GEN: ', { fontFamily: 'Arial', fontSize: '24px', fill: "#FFFFFF" });
 		this.mapNoise.x = 5;
 		this.mapNoise.y = 63;
 		this.mapNoise.visible = true;
@@ -44,7 +44,7 @@ class GUI {
 	initEvents() {
 		Game.registerUpdate('GUI', frame => {
 			Game.GUI.activeScenes.text = 'ACTIVE SCENES: ' + Object.keys(Game.sceneHandler.scenes).length;
-			Game.GUI.mapNoise.text = 'MAP NOISE X: ' + Game.map.noise.x + '\nMAP NOISE Y: ' + Game.map.noise.y;
+			Game.GUI.mapNoise.text = 'MAP NOISE X: ' + Game.map.noise.x + '\nMAP NOISE Y: ' + Game.map.noise.y + '\nMAP GEN: ' + Game.map.generator;
 		});
 
 		Game.input.onKeyDown('GUI', e => {
@@ -56,6 +56,10 @@ class GUI {
 				// 2
 				case 50:
 					Game.map.load();
+					break;
+				// 3
+				case 51:
+					Game.map.generator = (Game.map.generator == 'PERLIN') ? 'SIMPLEX' : 'PERLIN';
 					break;
 			}
 		});
