@@ -20,7 +20,10 @@ class Map {
 		let waterTiles = ['water.png', 'water2.png'];
 		let sandTiles = ['sand.png', 'sand2.png'];
 		let grassTiles = ['grass.png', 'grass2.png'];
+		let taigaTiles = ['taiga.png', 'taiga2.png'];
 		let rockTiles = ['rock.png', 'rock2.png'];
+		let snowTiles = ['snow.png', 'snow2.png'];
+		let trees = ['tree4.png', 'tree5.png', 'tree6.png'];
 
 		var pos;
 		var scale;
@@ -55,10 +58,13 @@ class Map {
 				}
 
 				var tileName;
-				if(value < 0.15) tileName = waterTiles[Math.floor(Math.random() * waterTiles.length)];
+				if(value < 0.08) tileName = 'ocean.png';
+				else if(value < 0.15) tileName = tileName = waterTiles[Math.floor(Math.random() * waterTiles.length)];
 				else if(value < 0.35) tileName = sandTiles[Math.floor(Math.random() * sandTiles.length)];
-				else if(value < 0.75) tileName = grassTiles[Math.floor(Math.random() * grassTiles.length)];
-				else tileName = rockTiles[Math.floor(Math.random() * rockTiles.length)];
+				else if(value < 0.55) tileName = grassTiles[Math.floor(Math.random() * grassTiles.length)];
+				else if(value < 0.75) tileName = taigaTiles[Math.floor(Math.random() * taigaTiles.length)];
+				else if(value < 0.90) tileName = rockTiles[Math.floor(Math.random() * rockTiles.length)];
+				else tileName = snowTiles[Math.floor(Math.random() * snowTiles.length)];
 
 				var texture = PIXI.Texture.fromImage('./assets/' + tileName);
 				var sprite = new PIXI.Sprite(texture);
@@ -67,6 +73,21 @@ class Map {
 				sprite.position.y = y * 64;
 
 				this.scene.addChild(sprite);
+
+				if(value > 0.35 && value < 0.50) {
+					var rand = Math.floor(Math.random() * 100);
+
+					if(rand > 75) {
+						var treeText = PIXI.Texture.fromImage('./assets/' + trees[Math.floor(Math.random() * trees.length)]);
+						var tree = new PIXI.Sprite(treeText);
+
+						tree.position.x = x * 64;
+						tree.position.y = y * 64;
+
+						this.scene.addChild(tree);
+					}
+				}
+
 				this.map[x][y] = value;
 			}
 		}
