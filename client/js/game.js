@@ -14,23 +14,25 @@ class Game {
 		// Load assets
 		Game.assets = new Assets();
 
-		// Create root scene
-		Game.sceneHandler = new SceneHandler();
+		Game.assets.loadAssetsFolder(function() {
+			// Create root scene
+			Game.sceneHandler = new SceneHandler();
 
-		// Bind events & create handlers
-		window.onresize = Game.onResize;
-		Game.updateEvents = {};
+			// Bind events & create handlers
+			window.onresize = Game.onResize;
+			Game.updateEvents = {};
 
-		// Init GUI
-		Game.GUI = new GUI();
+			// Init GUI
+			Game.GUI = new GUI();
 
-		// Create map
-		Game.map = new Map(100, 100);
+			// Create map
+			Game.map = new Map(100, 100);
 
-		// Start render loop
-		Game.frame = 0;
-		Game.lastLoop = new Date;
-		Game.render();
+			// Start render loop
+			Game.frame = 0;
+			Game.lastLoop = new Date;
+			Game.render();
+		});
 	}
 
 	static render() {
