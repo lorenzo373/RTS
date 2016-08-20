@@ -4,10 +4,7 @@ class Map {
 		this.height = height;
 
 		this.generator = 'PERLIN';
-		this.noise = {
-			x: 45,
-			y: 45
-		};
+		this.noise = new Vector2(45, 45);
 
 		// Load map
 		this.load();
@@ -106,7 +103,7 @@ class Map {
 		Game.input.onMouseDown('mapDrag', e => {
 			// Left mouse button
 			if(e.which === 1) {
-				console.log(Game.map.getTileForRealPosition(e.clientX, e.clientY).type.name);
+				console.log(Game.map.getTileForRealPosition(new Vector2(e.clientX, e.clientY)).type.name);
 			}
 
 			// Right mouse button
@@ -117,13 +114,18 @@ class Map {
 		});
 
 		Game.input.onMouseUp('mapDrag', e => {
+			// Left mouse button
+			if(e.which === 1) {
+				let mousePosition = this.getCoordinates(new Vector2(e.clientX, e.clientY));
+
+				let tilePosition = this.nearestTileWorldPosition(mousePosition);
+
+				new Building(tilePosition.x, tilePosition.y, 'command.png');
+			}
+
 			// Right mouse button
 			if(e.which === 3) {
 				Game.map.isDragging = false;
-			} else {
-				let mousePosition = this.getCoordinates(e.clientX, e.clientY);
-
-				new Building(Math.floor(mousePosition.x / 64) * 64, Math.floor(mousePosition.y / 64) * 64, 'command.png');
 			}
 		});
 
@@ -147,9 +149,9 @@ class Map {
 
 			// Zoom in on mouse position
 			// Broken updatetransform, fix in future
-			let before = this.getCoordinates(e.clientX, e.clientY);
+			let before = this.getCoordinates(new Vector2(e.clientX, e.clientY));
 			Game.map.scene.updateTransform();
-			let after = this.getCoordinates(e.clientX, e.clientY);
+			let after = this.getCoordinates(new Vector2(e.clientX, e.clientY));
 
 			Game.map.scene.position.x += (after.x - before.x) * Game.map.scene.scale.x;
 			Game.map.scene.position.y += (after.y - before.y) * Game.map.scene.scale.y;
@@ -157,29 +159,33 @@ class Map {
 		});
 	}
 
-	getTileForMapPosition(x, y) {
-		return this.map[x][y];
+	getTileForMapPosition(vec2) {
+		return this.map[vec2.x][vec2.y];
 	}
 
-	getTileForRealPosition(x, y) {
+	getTileForRealPosition(vec2) {
 		var _x = 1 / this.scene.scale.x;
 		var _y = 1 / this.scene.scale.y;
 
-		var xx = x * _x - (_x * this.scene.position.x);
-		var yy = y * _y - (_y * this.scene.position.y);
+		var xx = vec2.x * _x - (_x * this.scene.position.x);
+		var yy = vec2.y * _y - (_y * this.scene.position.y);
 
-		var fx = Math.floor(xx / 64);
-		var fy = Math.floor(yy / 64);
+		var fx = Math.floor(xx / TILESIZE);
+		var fy = Math.floor(yy / TILESIZE);
 
 		return this.map[fx][fy];
 	}
 
-	getCoordinates(x, y) {
+	getCoordinates(vec2) {
 		return PIXI.interaction.InteractionData.prototype.getLocalPosition.call({
 			global: {
-				x: x,
-				y: y
+				x: vec2.x,
+				y: vec2.y
 			}
 		}, Game.map.scene);
+	}
+
+	nearestTileWorldPosition(vec2) {
+		return new Vector2(Math.floor(vec2.x / TILESIZE) * TILESIZE, Math.floor(vec2.y / TILESIZE) * TILESIZE);
 	}
 }
