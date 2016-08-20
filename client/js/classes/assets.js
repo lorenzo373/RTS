@@ -4,12 +4,6 @@ class Assets {
 
 		//array with all the textures
 		this.textures = [];
-
-		//load all assets here
-		this.addAsset('command', 'command.png');
-
-		//get asset with this
-		this.getAsset('command');
 	}
 
 	loadAssetsFolder(callback) {
@@ -23,6 +17,10 @@ class Assets {
 	        		//get filename without extension as identifier
 	        		var fileNameArray = array[index].split('.');
 	        		var fileName = fileNameArray[0];
+
+	        		//remove subfolder(s) in identifier and only leave filename
+	        		var fileNameArray = fileName.split('\\');
+	        		fileName = fileNameArray[fileNameArray.length-1];
 
 	        		Game.assets.addAsset(fileName, array[index]);
 	        	}

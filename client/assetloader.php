@@ -1,15 +1,14 @@
 <?php 
 
-$dir = './assets/';
+$dir = '.\assets\\';
 
 $assets = [];
 
-foreach (new DirectoryIterator($dir) as $fileInfo) {
-    if (!$fileInfo->isDot()) {
-        array_push($assets, $fileInfo->getFilename());
-        if ($fileInfo->isDir()) {
-            listFolderFiles($fileInfo->getPathname());
-        }
+$iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir), RecursiveIteratorIterator::SELF_FIRST );
+
+foreach ( $iterator as $path ) {
+    if (!$path->isDir()) {
+    	array_push($assets, str_replace($dir, '', $path) );
     }
 }
 
