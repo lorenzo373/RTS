@@ -26,6 +26,8 @@ class Assets {
 	        	}
 
 	        	callback();
+	        } else {
+	        	console.log(xhttp.readyState);
 	        }
     	}
 
