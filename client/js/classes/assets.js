@@ -28,9 +28,10 @@ class Assets {
 	        	callback();
 	        } else {
 	        	console.log("error");
-	        	console.log("ready state: " + xhttp.readyState);
-	        	console.log("status: " + xhttp.status);
 	        }
+
+	        console.log("ready state: " + xhttp.readyState);
+	        console.log("status: " + xhttp.status);
     	}
 
 		xhttp.open("GET", "./assetloader.php", true);
