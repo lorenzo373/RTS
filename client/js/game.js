@@ -11,23 +11,28 @@ class Game {
 		// Create input handler
 		Game.input = new Input();
 
-		// Create root scene
-		Game.sceneHandler = new SceneHandler();
+		// Load assets
+		Game.assets = new Assets();
 
-		// Bind events & create handlers
-		window.onresize = Game.onResize;
-		Game.updateEvents = {};
+		Game.assets.loadAssetsFolder(function() {
+			// Create root scene
+			Game.sceneHandler = new SceneHandler();
 
-		// Init GUI
-		Game.GUI = new GUI();
+			// Bind events & create handlers
+			window.onresize = Game.onResize;
+			Game.updateEvents = {};
 
-		// Create map
-		Game.map = new Map(100, 100);
+			// Init GUI
+			Game.GUI = new GUI();
 
-		// Start render loop
-		Game.frame = 0;
-		Game.lastLoop = new Date;
-		Game.render();
+			// Create map
+			Game.map = new Map(100, 100);
+
+			// Start render loop
+			Game.frame = 0;
+			Game.lastLoop = new Date;
+			Game.render();
+		});
 	}
 
 	static render() {

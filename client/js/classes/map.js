@@ -55,8 +55,8 @@ class Map {
 				else if(value < 0.90) tile = new Tile(TILES.ROCK);
 				else tile = new Tile(TILES.SNOW);
 
-				tile.sprite.position.x = x * SPRITESIZE;
-				tile.sprite.position.y = y * SPRITESIZE;
+				tile.sprite.position.x = x * TILESIZE;
+				tile.sprite.position.y = y * TILESIZE;
 
 				this.scene.addChild(tile.sprite);
 
@@ -73,11 +73,11 @@ class Map {
 			var rand = Math.floor(Math.random() * 100);
 
 			if(rand > 75) {
-				var treeText = PIXI.Texture.fromImage(ASSET_DIR + TREES.NORMAL[Math.floor(Math.random() * TREES.NORMAL.length)]);
+				var treeText = Game.assets.getAsset(TREES.NORMAL[Math.floor(Math.random() * TREES.NORMAL.length)]);
 				var tree = new PIXI.Sprite(treeText);
 
-				tree.position.x = x * SPRITESIZE;
-				tree.position.y = y * SPRITESIZE;
+				tree.position.x = x * TILESIZE;
+				tree.position.y = y * TILESIZE;
 
 				this.scene.addChild(tree);
 			}
@@ -88,11 +88,11 @@ class Map {
 			var rand = Math.floor(Math.random() * 100);
 
 			if(rand > 90) {
-				var palmText = PIXI.Texture.fromImage(ASSET_DIR + TREES.PALMS[Math.floor(Math.random() * TREES.PALMS.length)]);
+				var palmText = Game.assets.getAsset(TREES.PALMS[Math.floor(Math.random() * TREES.PALMS.length)]);
 				var palm = new PIXI.Sprite(palmText);
 
-				palm.position.x = x * SPRITESIZE;
-				palm.position.y = y * SPRITESIZE;
+				palm.position.x = x * TILESIZE;
+				palm.position.y = y * TILESIZE;
 
 				this.scene.addChild(palm);
 			}
@@ -120,7 +120,7 @@ class Map {
 
 				let tilePosition = this.nearestTileWorldPosition(mousePosition);
 
-				new Building(tilePosition.x, tilePosition.y, 'command.png');
+				new Building(tilePosition.x, tilePosition.y, 'command');
 			}
 
 			// Right mouse button
