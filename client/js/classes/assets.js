@@ -7,6 +7,8 @@ class Assets {
 	}
 
 	loadAssetsFolder(callback) {
+		console.log(window.location.href);
+
 		var xhttp = new XMLHttpRequest();
 
 		xhttp.onreadystatechange = function() {
@@ -26,12 +28,7 @@ class Assets {
 	        	}
 
 	        	callback();
-	        } else {
-	        	console.log("error");
 	        }
-
-	        console.log("ready state: " + xhttp.readyState);
-	        console.log("status: " + xhttp.status);
     	}
 
 		xhttp.open("GET", "./assetloader.php", true);
