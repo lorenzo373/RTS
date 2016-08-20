@@ -21,6 +21,4 @@ const TREES = {
 	NORMAL: ['tree4.png', 'tree5.png', 'tree6.png'],
 	PALMS: ['palm1.png', 'palm2.png', 'palm3.png']
 };
-const SPRITESIZE = 64;
-
 const TILESIZE = 64;

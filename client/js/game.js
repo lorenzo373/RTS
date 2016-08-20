@@ -11,6 +11,9 @@ class Game {
 		// Create input handler
 		Game.input = new Input();
 
+		// Load assets
+		Game.assets = new Assets();
+
 		// Create root scene
 		Game.sceneHandler = new SceneHandler();
 
