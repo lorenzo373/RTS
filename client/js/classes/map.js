@@ -24,6 +24,7 @@ class Map {
 		let rockTiles = ['rock.png', 'rock2.png'];
 		let snowTiles = ['snow.png', 'snow2.png'];
 		let trees = ['tree4.png', 'tree5.png', 'tree6.png'];
+		let palms = ['palm1.png', 'palm2.png', 'palm3.png'];
 
 		var pos;
 		var scale;
@@ -74,6 +75,7 @@ class Map {
 
 				this.scene.addChild(sprite);
 
+				// Trees
 				if(value > 0.35 && value < 0.50) {
 					var rand = Math.floor(Math.random() * 100);
 
@@ -85,6 +87,21 @@ class Map {
 						tree.position.y = y * 64;
 
 						this.scene.addChild(tree);
+					}
+				}
+
+				// Palms
+				if(value > 0.16 && value < 0.20) {
+					var rand = Math.floor(Math.random() * 100);
+
+					if(rand > 90) {
+						var palmText = PIXI.Texture.fromImage('./assets/' + palms[Math.floor(Math.random() * palms.length)]);
+						var palm = new PIXI.Sprite(palmText);
+
+						palm.position.x = x * 64;
+						palm.position.y = y * 64;
+
+						this.scene.addChild(palm);
 					}
 				}
 
