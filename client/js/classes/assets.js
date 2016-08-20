@@ -11,7 +11,7 @@ class Assets {
 
 		xhttp.onreadystatechange = function() {
 	        if (xhttp.readyState == XMLHttpRequest.DONE) {
-	        	if (xhttp.status === 200) {  
+	        	if (xhttp.status === 200) { 
 	        	var array = xhttp.responseText.split(',');
 
 	        	for (var index = 0; index < array.length; index++) {
@@ -33,7 +33,7 @@ class Assets {
 	        }
     	}
 
-		xhttp.open("GET", "assetloader.php", true);
+		xhttp.open("GET", "./assetloader.php", true);
 		xhttp.send();
 	}
 
