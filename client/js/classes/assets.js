@@ -7,11 +7,10 @@ class Assets {
 	}
 
 	loadAssetsFolder(callback) {
-		try {
 		var xhttp = new XMLHttpRequest();
 
 		xhttp.onreadystatechange = function() {
-	        if (xhttp.readyState == XMLHttpRequest.DONE) {
+	        if (xhttp.readyState == XMLHttpRequest.DONE && xhttp.status==200) {
 	        	var array = xhttp.responseText.split(',');
 
 	        	for (var index = 0; index < array.length; index++) {
@@ -27,17 +26,15 @@ class Assets {
 	        	}
 
 	        	callback();
+	        } else {
+	        	console.log("error");
+	        	console.log("ready state: " + xhttp.readyState);
+	        	console.log("status: " + xhttp.status);
 	        }
     	}
 
-    	
-
 		xhttp.open("GET", "./assetloader.php", true);
 		xhttp.send();
-
-		} catch(e) {
-			console.log("error " + e);
-		}
 	}
 
 	addAsset(identifier, sprite) {
