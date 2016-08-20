@@ -28,7 +28,7 @@ class Server {
 			console.log('connection');
 
 			socket.on('disconnect', function() { console.log('disconnection'); });
-			SignalHandler.bindEvents(socket);
+			global.SignalHandler.bindEvents(socket);
 		});
 
 		server.listen(Server.config.port, function() {
@@ -36,22 +36,6 @@ class Server {
 		});
 
 		return true;
-	}
-}
-
-class SignalHandler {
-	static bindEvents(socket) {
-		let events = ['sign_in'];
-
-		for(var i = 0; i < events.length; i++) {
-			socket.on(events[i], SignalHandler[events[i]]);
-		}
-
-		return true;
-	}
-
-	static sign_in(data) {
-		console.log(data);
 	}
 }
 
