@@ -17,15 +17,6 @@ class Map {
 	}
 
 	load() {
-		let waterTiles = ['water.png', 'water2.png'];
-		let sandTiles = ['sand.png', 'sand2.png'];
-		let grassTiles = ['grass.png', 'grass2.png'];
-		let taigaTiles = ['taiga.png', 'taiga2.png'];
-		let rockTiles = ['rock.png', 'rock2.png'];
-		let snowTiles = ['snow.png', 'snow2.png'];
-		let trees = ['tree4.png', 'tree5.png', 'tree6.png'];
-		let palms = ['palm1.png', 'palm2.png', 'palm3.png'];
-
 		var pos;
 		var scale;
 		if(this.scene) {
@@ -58,60 +49,66 @@ class Map {
 					var value = Math.abs(noise.simplex2(x / this.noise.x, y / this.noise.y));
 				}
 
-				var tileName;
-				if(value < 0.08) tileName = 'ocean.png';
-				else if(value < 0.15) tileName = tileName = waterTiles[Math.floor(Math.random() * waterTiles.length)];
-				else if(value < 0.35) tileName = sandTiles[Math.floor(Math.random() * sandTiles.length)];
-				else if(value < 0.55) tileName = grassTiles[Math.floor(Math.random() * grassTiles.length)];
-				else if(value < 0.75) tileName = taigaTiles[Math.floor(Math.random() * taigaTiles.length)];
-				else if(value < 0.90) tileName = rockTiles[Math.floor(Math.random() * rockTiles.length)];
-				else tileName = snowTiles[Math.floor(Math.random() * snowTiles.length)];
+				var tile;
+				if(value < 0.08) tile = new Tile(TILES.OCEAN);
+				else if(value < 0.15) tile = new Tile(TILES.WATER);
+				else if(value < 0.35) tile = new Tile(TILES.SAND);
+				else if(value < 0.55) tile = new Tile(TILES.GRASS);
+				else if(value < 0.75) tile = new Tile(TILES.TAIGA);
+				else if(value < 0.90) tile = new Tile(TILES.ROCK);
+				else tile = new Tile(TILES.SNOW);
 
-				var texture = PIXI.Texture.fromImage('./assets/' + tileName);
-				var sprite = new PIXI.Sprite(texture);
+				tile.sprite.position.x = x * SPRITESIZE;
+				tile.sprite.position.y = y * SPRITESIZE;
 
-				sprite.position.x = x * 64;
-				sprite.position.y = y * 64;
+				this.scene.addChild(tile.sprite);
 
-				this.scene.addChild(sprite);
+				this.generateTree(value, x, y);
 
-				// Trees
-				if(value > 0.35 && value < 0.50) {
-					var rand = Math.floor(Math.random() * 100);
+				this.map[x][y] = tile;
+			}
+		}
+	}
 
-					if(rand > 75) {
-						var treeText = PIXI.Texture.fromImage('./assets/' + trees[Math.floor(Math.random() * trees.length)]);
-						var tree = new PIXI.Sprite(treeText);
+	generateTree(value, x, y) {
+		// Trees
+		if(value > 0.35 && value < 0.50) {
+			var rand = Math.floor(Math.random() * 100);
 
-						tree.position.x = x * 64;
-						tree.position.y = y * 64;
+			if(rand > 75) {
+				var treeText = PIXI.Texture.fromImage(ASSET_DIR + TREES.NORMAL[Math.floor(Math.random() * TREES.NORMAL.length)]);
+				var tree = new PIXI.Sprite(treeText);
 
-						this.scene.addChild(tree);
-					}
-				}
+				tree.position.x = x * SPRITESIZE;
+				tree.position.y = y * SPRITESIZE;
 
-				// Palms
-				if(value > 0.16 && value < 0.20) {
-					var rand = Math.floor(Math.random() * 100);
+				this.scene.addChild(tree);
+			}
+		}
 
-					if(rand > 90) {
-						var palmText = PIXI.Texture.fromImage('./assets/' + palms[Math.floor(Math.random() * palms.length)]);
-						var palm = new PIXI.Sprite(palmText);
+		// Palms
+		if(value > 0.16 && value < 0.20) {
+			var rand = Math.floor(Math.random() * 100);
 
-						palm.position.x = x * 64;
-						palm.position.y = y * 64;
+			if(rand > 90) {
+				var palmText = PIXI.Texture.fromImage(ASSET_DIR + TREES.PALMS[Math.floor(Math.random() * TREES.PALMS.length)]);
+				var palm = new PIXI.Sprite(palmText);
 
-						this.scene.addChild(palm);
-					}
-				}
+				palm.position.x = x * SPRITESIZE;
+				palm.position.y = y * SPRITESIZE;
 
-				this.map[x][y] = value;
+				this.scene.addChild(palm);
 			}
 		}
 	}
 
 	initEvents() {
 		Game.input.onMouseDown('mapDrag', e => {
+			// Left mouse button
+			if(e.which === 1) {
+				console.log(Game.map.getTileForRealPosition(e.clientX, e.clientY).type.name);
+			}
+
 			// Right mouse button
 			if(e.which === 3) {
 				Game.map.isDragging = true;
@@ -158,6 +155,23 @@ class Map {
 			Game.map.scene.position.y += (after.y - before.y) * Game.map.scene.scale.y;
 			Game.map.scene.updateTransform();
 		});
+	}
+
+	getTileForMapPosition(x, y) {
+		return this.map[x][y];
+	}
+
+	getTileForRealPosition(x, y) {
+		var _x = 1 / this.scene.scale.x;
+		var _y = 1 / this.scene.scale.y;
+
+		var xx = x * _x - (_x * this.scene.position.x);
+		var yy = y * _y - (_y * this.scene.position.y);
+
+		var fx = Math.floor(xx / 64);
+		var fy = Math.floor(yy / 64);
+
+		return this.map[fx][fy];
 	}
 
 	getCoordinates(x, y) {
