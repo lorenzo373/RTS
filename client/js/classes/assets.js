@@ -7,32 +7,58 @@ class Assets {
 	}
 
 	loadAssetsFolder(callback) {
-		var xhttp = new XMLHttpRequest();
+		//if we're on gh-pages, load manually since it doesn't execute PHP
+		if (window.location.href == "https://lorenzo373.github.io/RTS/client/") {
+			this.addAsset('command', 'buildings/command.png');
 
-		xhttp.onreadystatechange = function() {
-	        if (xhttp.readyState == XMLHttpRequest.DONE) {
-	        	var array = xhttp.responseText.split(',');
+			this.addAsset('grass', 'tiles/grass.png');
+			this.addAsset('grass2', 'tiles/grass2.png');
+			this.addAsset('ocean', 'tiles/ocean.png');
+			this.addAsset('rock', 'tiles/rock.png');
+			this.addAsset('rock2', 'tiles/rock2.png');
+			this.addAsset('sand', 'tiles/sand.png');
+			this.addAsset('sand2', 'tiles/sand2.png');
+			this.addAsset('snow', 'tiles/snow.png');
+			this.addAsset('snow2', 'tiles/snow2.png');
+			this.addAsset('taiga', 'tiles/taiga.png');
+			this.addAsset('taiga2', 'tiles/taiga2.png');
+			this.addAsset('water', 'tiles/water.png');
+			this.addAsset('water2', 'tiles/water2.png');
 
-	        	for (var index = 0; index < array.length; index++) {
-	        		//get filename without extension as identifier
-	        		var fileNameArray = array[index].split('.');
-	        		var fileName = fileNameArray[0];
+			this.addAsset('palm1', 'palm1.png');
+			this.addAsset('palm2', 'palm2.png');
+			this.addAsset('palm3', 'palm3.png');
+			this.addAsset('tree4', 'tree4.png');
+			this.addAsset('tree5', 'tree5.png');
+			this.addAsset('tree6', 'tree6.png');
 
-	        		//remove subfolder(s) in identifier and only leave filename
-	        		var fileNameArray = fileName.split('\\');
-	        		fileName = fileNameArray[fileNameArray.length-1];
+			callback();
+		} else {
+			var xhttp = new XMLHttpRequest();
 
-	        		Game.assets.addAsset(fileName, array[index]);
-	        	}
+			xhttp.onreadystatechange = function() {
+		        if (xhttp.readyState == XMLHttpRequest.DONE && xhttp.status==200) {
+		        	var array = xhttp.responseText.split(',');
 
-	        	callback();
-	        } else {
-	        	console.log(xhttp.readyState);
-	        }
-    	}
+		        	for (var index = 0; index < array.length; index++) {
+		        		//get filename without extension as identifier
+		        		var fileNameArray = array[index].split('.');
+		        		var fileName = fileNameArray[0];
 
-		xhttp.open("GET", "assetloader.php", true);
-		xhttp.send();
+		        		//remove subfolder(s) in identifier and only leave filename
+		        		var fileNameArray = fileName.split('\\');
+		        		fileName = fileNameArray[fileNameArray.length-1];
+
+		        		Game.assets.addAsset(fileName, array[index]);
+		        	}
+
+		        	callback();
+		        }
+	    	}
+
+			xhttp.open("GET", "./assetloader.php", true);
+			xhttp.send();
+		}
 	}
 
 	addAsset(identifier, sprite) {
