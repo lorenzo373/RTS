@@ -123,6 +123,10 @@ class Map {
 			// Right mouse button
 			if(e.which === 3) {
 				Game.map.isDragging = false;
+			} else {
+				let mousePosition = this.getCoordinates(e.clientX, e.clientY);
+
+				new Building(Math.floor(mousePosition.x / 64) * 64, Math.floor(mousePosition.y / 64) * 64, 'command.png');
 			}
 		});
 
