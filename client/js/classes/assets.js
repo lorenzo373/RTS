@@ -46,6 +46,6 @@ class Assets {
 			}
 		}
 
-		console.log('Assets: asset with identifier "' + identifier + '" requested but not found');
+		//console.log('Assets: asset with identifier "' + identifier + '" requested but not found');
 	}
 }
