@@ -78,6 +78,7 @@ class Map {
 			if(rand > 75) {
 				var treeText = Game.assets.getAsset(TREES.NORMAL[Math.floor(Math.random() * TREES.NORMAL.length)]);
 				var tree = new PIXI.Sprite(treeText);
+				tree.tint = Game.assets.randomTint(40);
 				tree.displayGroup = new PIXI.DisplayGroup(3, false);
 
 				tree.position.x = x * TILESIZE;
@@ -105,13 +106,14 @@ class Map {
 			if(rand > 90) {
 				var palmText = Game.assets.getAsset(TREES.PALMS[Math.floor(Math.random() * TREES.PALMS.length)]);
 				var palm = new PIXI.Sprite(palmText);
+				palm.tint = Game.assets.randomTint(40);
 				palm.displayGroup = new PIXI.DisplayGroup(3, false);
 
 				palm.position.x = x * TILESIZE;
 				palm.position.y = y * TILESIZE;
 
 				var shadow = new PIXI.Sprite(palmText);
-				shadow.tint = 0x000000;
+				shadow.tint = '000000';
 				shadow.alpha = 0.3;
 				shadow.displayGroup = new PIXI.DisplayGroup(1, false);
 

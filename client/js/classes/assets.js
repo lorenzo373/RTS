@@ -74,4 +74,14 @@ class Assets {
 
 		console.log('Assets: asset with identifier "' + identifier + '" requested but not found');
 	}
+
+	randomTint(threshold) {
+		threshold = threshold || 20;
+
+		var max = 255 - threshold;
+		var rValue = Math.floor(Math.random() * threshold) + max;
+		var rgb = rValue | (rValue << 8) | (rValue << 16);
+		
+        return '0x' + (0x1000000 + rgb).toString(16).slice(1);
+	}
 }
