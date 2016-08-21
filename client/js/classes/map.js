@@ -68,6 +68,8 @@ class Map {
 				this.map[x][y] = tile;
 			}
 		}
+
+		this.cul();
 	}
 
 	generateTree(value, x, y) {
