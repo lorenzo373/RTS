@@ -12,18 +12,12 @@ class Assets {
 			this.addAsset('command', 'buildings/command.png');
 
 			this.addAsset('grass', 'tiles/grass.png');
-			this.addAsset('grass2', 'tiles/grass2.png');
 			this.addAsset('ocean', 'tiles/ocean.png');
 			this.addAsset('rock', 'tiles/rock.png');
-			this.addAsset('rock2', 'tiles/rock2.png');
 			this.addAsset('sand', 'tiles/sand.png');
-			this.addAsset('sand2', 'tiles/sand2.png');
 			this.addAsset('snow', 'tiles/snow.png');
-			this.addAsset('snow2', 'tiles/snow2.png');
 			this.addAsset('taiga', 'tiles/taiga.png');
-			this.addAsset('taiga2', 'tiles/taiga2.png');
 			this.addAsset('water', 'tiles/water.png');
-			this.addAsset('water2', 'tiles/water2.png');
 
 			this.addAsset('palm1', 'palm1.png');
 			this.addAsset('palm2', 'palm2.png');
