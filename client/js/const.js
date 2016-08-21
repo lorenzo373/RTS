@@ -19,3 +19,9 @@ const TREES = {
 	PALMS: ['palm1', 'palm2', 'palm3']
 };
 const TILESIZE = 64;
+
+// Shadows
+var SHADOWOFFSET = {
+	x: 4,
+	y: 4
+};
