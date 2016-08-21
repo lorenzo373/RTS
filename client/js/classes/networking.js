@@ -1,7 +1,7 @@
 class Networking {
 	constructor() {
 		this.host = 'http://localhost';
-		this.port = '5001';
+		this.port = '3000';
 		this.connection = null;
 	}
 

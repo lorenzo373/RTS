@@ -71,6 +71,11 @@ class Map {
 		}
 
 		this.cul();
+
+		setTimeout(function() {
+			// Load minimap
+			Game.GUI.renderMinimap();
+		}, 100);
 	}
 
 	generateTree(value, x, y) {
@@ -149,6 +154,7 @@ class Map {
 				Game.map.lastDrag = { x: e.clientX, y: e.clientY };
 
 				Game.map.cul();
+				Game.GUI.renderViewport();
 			}
 		});
 
@@ -173,6 +179,7 @@ class Map {
 			Game.map.scene.updateTransform();
 
 			Game.map.cul();
+			Game.GUI.renderViewport();
 		});
 	}
 
