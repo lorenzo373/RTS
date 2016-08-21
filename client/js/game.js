@@ -5,6 +5,9 @@ class Game {
 		Game.renderer.autoResize = true;
 		Game.renderer.resize(document.documentElement.clientWidth, document.documentElement.clientHeight);
 
+		// Set viewport
+		Game.viewport = { width: document.documentElement.clientWidth, height: document.documentElement.clientHeight };
+
 		// Add renderer to document
 		document.body.appendChild(Game.renderer.view);
 
@@ -26,7 +29,7 @@ class Game {
 			Game.GUI = new GUI();
 
 			// Create map
-			Game.map = new Map(100, 100);
+			Game.map = new Map(MAP_WIDTH, MAP_HEIGHT);
 
 			// Start render loop
 			Game.frame = 0;
@@ -53,6 +56,12 @@ class Game {
 	static onResize() {
 		// Resize renderer
 		Game.renderer.resize(document.documentElement.clientWidth, document.documentElement.clientHeight);
+
+		// Set viewport
+		Game.viewport = { width: document.documentElement.clientWidth, height: document.documentElement.clientHeight };
+
+		// Cul
+		Game.map.cul();
 	}
 
 	static update() {

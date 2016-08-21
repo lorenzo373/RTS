@@ -3,7 +3,10 @@ const RENDERER_WIDTH = 800;
 const RENDERER_HEIGHT = 600;
 const RENDERER_BGCOLOR = "#FFFFFF";
 
-// Tiles
+// Map
+const MAP_WIDTH = 100;
+const MAP_HEIGHT = 100;
+
 // category 2: water, category 1: solid, category 0: ground
 const TILES = {
 	OCEAN: { category: 2, asset: 'ocean', name: 'Ocean' },

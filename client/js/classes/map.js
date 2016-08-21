@@ -163,6 +163,8 @@ class Map {
 				Game.map.scene.position.x += e.clientX - Game.map.lastDrag.x;
 				Game.map.scene.position.y += e.clientY - Game.map.lastDrag.y;
 				Game.map.lastDrag = { x: e.clientX, y: e.clientY };
+
+				Game.map.cul();
 			}
 		});
 
@@ -185,10 +187,40 @@ class Map {
 			Game.map.scene.position.x += (after.x - before.x) * Game.map.scene.scale.x;
 			Game.map.scene.position.y += (after.y - before.y) * Game.map.scene.scale.y;
 			Game.map.scene.updateTransform();
+
+			Game.map.cul();
 		});
 	}
 
+	cul() {
+		let TL = this.getTileForRealPosition(new Vector2(0, 0));
+		let BR = this.getTileForRealPosition(new Vector2(Game.viewport.width, Game.viewport.height));
+
+		let minX = TL ? (TL.sprite.position.x / TILESIZE) : 0;
+		let minY = TL ? (TL.sprite.position.y / TILESIZE) : 0; 
+		let maxX = BR ? (BR.sprite.position.x / TILESIZE) : this.map[0].length;
+		let maxY = BR ? (BR.sprite.position.y / TILESIZE) : this.map[0].length;
+
+		for(var y = 0; y < this.map[0].length; y++) {
+			for(var x = 0; x < this.map.length; x++) {
+				if((x < minX || x > maxX) && (y < minY || y > maxY)) {
+					this.map[x][y].sprite.visible = false;
+				} else {
+					this.map[x][y].sprite.visible = true;
+				}
+			}
+		}
+	}
+
 	getTileForMapPosition(vec2) {
+		if(!this.map[vec2.x]) {
+			return false;
+		}
+
+		if(!this.map[vec2.x][vec2.y]) {
+			return false;
+		}
+
 		return this.map[vec2.x][vec2.y];
 	}
 
@@ -202,7 +234,34 @@ class Map {
 		var fx = Math.floor(xx / TILESIZE);
 		var fy = Math.floor(yy / TILESIZE);
 
+		if(fx < 0 || fy < 0 || fx > this.map.length || fy > this.map[0].length) {
+			return false;
+		}
+
+		if(!this.map[fx]) {
+			return false;
+		}
+
+		if(!this.map[fx][fy]) {
+			return false;
+		}
+
 		return this.map[fx][fy];
+	}
+
+	getRealPositionForTile(x, y) {
+		var _x = 1 / this.scene.scale.x;
+		var _y = 1 / this.scene.scale.y;
+		var pos = this.map[x][y].sprite.position;
+
+		if(!pos) {
+			return false;
+		}
+
+		var xx = pos.x / _x + (_x * this.scene.position.x);
+		var yy = pos.y / _y + (_y * this.scene.position.y);
+
+		return new Vector2(xx, yy);
 	}
 
 	getCoordinates(vec2) {
