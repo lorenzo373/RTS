@@ -276,8 +276,8 @@ class Map {
 				continue;
 			}
 
-			ref.position.x = ref.position.x - SHADOWOFFSET.x + vec2.x;
-			ref.position.y = ref.position.y - SHADOWOFFSET.y + vec2.y;
+			ref.shadow.position.x = ref.shadow.position.x - SHADOWOFFSET.x + vec2.x;
+			ref.shadow.position.y = ref.shadow.position.y - SHADOWOFFSET.y + vec2.y;
 		}
 
 		SHADOWOFFSET.x = vec2.x;

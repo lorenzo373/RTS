@@ -130,7 +130,5 @@ class GUI {
 		ctx.rect(minX, minY, maxX - minX, maxY - minY);
 		ctx.stroke();
 		ctx.closePath();
-
-		console.log('Rendering viewport @ ', minX, minY, maxX - minX, maxY - minY);
 	}
 }
