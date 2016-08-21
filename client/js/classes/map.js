@@ -4,7 +4,7 @@ class Map {
 		this.height = height;
 
 		this.map = [];
-		this.shadows = [];
+		this.resources = [];
 		this.generator = 'PERLIN';
 		this.noise = new Vector2(45, 45);
 
@@ -33,6 +33,7 @@ class Map {
 
 		delete this.map;
 		this.map = [];
+		this.destroyAllResources();
 
 		noise.seed(Math.random());
 
@@ -68,6 +69,13 @@ class Map {
 				this.map[x][y] = tile;
 			}
 		}
+
+		this.cul();
+
+		setTimeout(function() {
+			// Load minimap
+			Game.GUI.renderMinimap();
+		}, 100);
 	}
 
 	generateTree(value, x, y) {
@@ -76,26 +84,11 @@ class Map {
 			var rand = Math.floor(Math.random() * 100);
 
 			if(rand > 75) {
-				var treeText = Game.assets.getAsset(TREES.NORMAL[Math.floor(Math.random() * TREES.NORMAL.length)]);
-				var tree = new PIXI.Sprite(treeText);
-				tree.tint = Game.assets.randomTint(40);
-				tree.displayGroup = new PIXI.DisplayGroup(3, false);
+				var tree = new Tree(new Vector2(x, y), TREE_TYPES.NORMAL);
 
-				tree.position.x = x * TILESIZE;
-				tree.position.y = y * TILESIZE;
-
-				var shadow = new PIXI.Sprite(treeText);
-				shadow.tint = 0x000000;
-				shadow.alpha = 0.3;
-				shadow.displayGroup = new PIXI.DisplayGroup(1, false);
-
-				shadow.position = tree.position;
-				shadow.position.x += SHADOWOFFSET.x;
-				shadow.position.y += SHADOWOFFSET.y;
-
-				this.scene.addChild(shadow);
-				this.scene.addChild(tree);
-				this.shadows.push(shadow);
+				this.scene.addChild(tree.shadow);
+				this.scene.addChild(tree.sprite);
+				this.resources.push(tree);
 			}
 		}
 
@@ -104,28 +97,24 @@ class Map {
 			var rand = Math.floor(Math.random() * 100);
 
 			if(rand > 90) {
-				var palmText = Game.assets.getAsset(TREES.PALMS[Math.floor(Math.random() * TREES.PALMS.length)]);
-				var palm = new PIXI.Sprite(palmText);
-				palm.tint = Game.assets.randomTint(40);
-				palm.displayGroup = new PIXI.DisplayGroup(3, false);
+				var tree = new Tree(new Vector2(x, y), TREE_TYPES.PALM);
 
-				palm.position.x = x * TILESIZE;
-				palm.position.y = y * TILESIZE;
-
-				var shadow = new PIXI.Sprite(palmText);
-				shadow.tint = '000000';
-				shadow.alpha = 0.3;
-				shadow.displayGroup = new PIXI.DisplayGroup(1, false);
-
-				shadow.position = palm.position;
-				shadow.position.x += SHADOWOFFSET.x;
-				shadow.position.y += SHADOWOFFSET.y;
-
-				this.scene.addChild(shadow);
-				this.scene.addChild(palm);
-				this.shadows.push(shadow);
+				this.scene.addChild(tree.shadow);
+				this.scene.addChild(tree.sprite);
+				this.resources.push(tree);
 			}
 		}
+	}
+
+	destroyAllResources() {
+		for(var i = 0; i < this.resources.length; i++) {
+			this.resources[i].destroy();
+		}
+
+		delete this.resources;
+		this.resources = [];
+
+		return true;
 	}
 
 	initEvents() {
@@ -165,6 +154,7 @@ class Map {
 				Game.map.lastDrag = { x: e.clientX, y: e.clientY };
 
 				Game.map.cul();
+				Game.GUI.renderViewport();
 			}
 		});
 
@@ -189,6 +179,7 @@ class Map {
 			Game.map.scene.updateTransform();
 
 			Game.map.cul();
+			Game.GUI.renderViewport();
 		});
 	}
 
@@ -278,8 +269,13 @@ class Map {
 	}
 
 	setShadowOffset(vec2) {
-		for(var i = 0; i < this.shadows.length; i++) {
-			var ref = this.shadows[i];
+		for(var i = 0; i < this.resources.length; i++) {
+			var ref = this.resources[i];
+
+			if(!ref.hasOwnProperty('shadow')) {
+				continue;
+			}
+
 			ref.position.x = ref.position.x - SHADOWOFFSET.x + vec2.x;
 			ref.position.y = ref.position.y - SHADOWOFFSET.y + vec2.y;
 		}

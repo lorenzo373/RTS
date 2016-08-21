@@ -30,6 +30,7 @@ class Game {
 
 			// Create map
 			Game.map = new Map(MAP_WIDTH, MAP_HEIGHT);
+			Game.GUI.loadMinimap();
 
 			// Start render loop
 			Game.frame = 0;
