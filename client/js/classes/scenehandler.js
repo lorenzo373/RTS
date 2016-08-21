@@ -8,6 +8,7 @@ class SceneHandler {
 	createScene(name, visible, index) {
 		index = index || 0;
 		var scene = new PIXI.Container();
+		//scene.displayList = new PIXI.DisplayList();
 
 		this.scenes[name] = scene;
 		this.setIndex(name, index);

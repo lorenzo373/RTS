@@ -3,6 +3,8 @@ class Map {
 		this.width = width;
 		this.height = height;
 
+		this.map = [];
+		this.shadows = [];
 		this.generator = 'PERLIN';
 		this.noise = new Vector2(45, 45);
 
@@ -57,6 +59,7 @@ class Map {
 
 				tile.sprite.position.x = x * TILESIZE;
 				tile.sprite.position.y = y * TILESIZE;
+				tile.sprite.displayGroup = new PIXI.DisplayGroup(0, false);
 
 				this.scene.addChild(tile.sprite);
 
@@ -75,11 +78,24 @@ class Map {
 			if(rand > 75) {
 				var treeText = Game.assets.getAsset(TREES.NORMAL[Math.floor(Math.random() * TREES.NORMAL.length)]);
 				var tree = new PIXI.Sprite(treeText);
+				tree.tint = Game.assets.randomTint(40);
+				tree.displayGroup = new PIXI.DisplayGroup(3, false);
 
 				tree.position.x = x * TILESIZE;
 				tree.position.y = y * TILESIZE;
 
+				var shadow = new PIXI.Sprite(treeText);
+				shadow.tint = 0x000000;
+				shadow.alpha = 0.3;
+				shadow.displayGroup = new PIXI.DisplayGroup(1, false);
+
+				shadow.position = tree.position;
+				shadow.position.x += SHADOWOFFSET.x;
+				shadow.position.y += SHADOWOFFSET.y;
+
+				this.scene.addChild(shadow);
 				this.scene.addChild(tree);
+				this.shadows.push(shadow);
 			}
 		}
 
@@ -90,11 +106,24 @@ class Map {
 			if(rand > 90) {
 				var palmText = Game.assets.getAsset(TREES.PALMS[Math.floor(Math.random() * TREES.PALMS.length)]);
 				var palm = new PIXI.Sprite(palmText);
+				palm.tint = Game.assets.randomTint(40);
+				palm.displayGroup = new PIXI.DisplayGroup(3, false);
 
 				palm.position.x = x * TILESIZE;
 				palm.position.y = y * TILESIZE;
 
+				var shadow = new PIXI.Sprite(palmText);
+				shadow.tint = '000000';
+				shadow.alpha = 0.3;
+				shadow.displayGroup = new PIXI.DisplayGroup(1, false);
+
+				shadow.position = palm.position;
+				shadow.position.x += SHADOWOFFSET.x;
+				shadow.position.y += SHADOWOFFSET.y;
+
+				this.scene.addChild(shadow);
 				this.scene.addChild(palm);
+				this.shadows.push(shadow);
 			}
 		}
 	}
@@ -187,5 +216,18 @@ class Map {
 
 	nearestTileWorldPosition(vec2) {
 		return new Vector2(Math.floor(vec2.x / TILESIZE) * TILESIZE, Math.floor(vec2.y / TILESIZE) * TILESIZE);
+	}
+
+	setShadowOffset(vec2) {
+		for(var i = 0; i < this.shadows.length; i++) {
+			var ref = this.shadows[i];
+			ref.position.x = ref.position.x - SHADOWOFFSET.x + vec2.x;
+			ref.position.y = ref.position.y - SHADOWOFFSET.y + vec2.y;
+		}
+
+		SHADOWOFFSET.x = vec2.x;
+		SHADOWOFFSET.y = vec2.y;
+
+		return true;
 	}
 }
