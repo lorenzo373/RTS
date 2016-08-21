@@ -33,6 +33,7 @@ class Map {
 
 		delete this.map;
 		this.map = [];
+		this.destroyAllResources();
 
 		noise.seed(Math.random());
 
@@ -98,6 +99,17 @@ class Map {
 				this.resources.push(tree);
 			}
 		}
+	}
+
+	destroyAllResources() {
+		for(var i = 0; i < this.resources.length; i++) {
+			this.resources[i].destroy();
+		}
+
+		delete this.resources;
+		this.resources = [];
+
+		return true;
 	}
 
 	initEvents() {

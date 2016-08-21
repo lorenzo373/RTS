@@ -25,4 +25,12 @@ class Tree extends Resource {
 		this.shadow.position.x += SHADOWOFFSET.x;
 		this.shadow.position.y += SHADOWOFFSET.y;
 	}
+
+	destroy() {
+		super.destroy();
+
+		if(this.shadow) {
+			this.shadow.destroy();
+		}
+	}
 }
