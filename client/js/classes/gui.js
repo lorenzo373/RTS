@@ -111,22 +111,19 @@ class GUI {
 	}
 
 	renderViewport() {
-		let TL = Game.map.getTileForRealPosition(new Vector2(0, 0));
-		let TR = Game.map.getTileForRealPosition(new Vector2(Game.viewport.width, 0));
-		let BL = Game.map.getTileForRealPosition(new Vector2(0, Game.viewport.height));
-		let BR = Game.map.getTileForRealPosition(new Vector2(Game.viewport.width, Game.viewport.height));
+		let sq = Game.map.lastViewport;
 
-		let minX = TL ? (TL.sprite.position.x / TILESIZE) : (BL ? (BL.sprite.position.x / TILESIZE) : 0);
-		let minY = TL ? (TL.sprite.position.y / TILESIZE) : (TR ? (TR.sprite.position.y / TILESIZE) : 0); 
-		let maxX = BR ? (BR.sprite.position.x / TILESIZE) : (TR ? (TR.sprite.position.x / TILESIZE) : Game.map.map.length);
-		let maxY = BR ? (BR.sprite.position.y / TILESIZE) : (BL ? (BL.sprite.position.y / TILESIZE) : Game.map.map[0].length);
+		let minX = sq.TL ? (sq.TL.sprite.position.x / TILESIZE) : (sq.BL ? (sq.BL.sprite.position.x / TILESIZE) : 0);
+		let minY = sq.TL ? (sq.TL.sprite.position.y / TILESIZE) : (sq.TR ? (sq.TR.sprite.position.y / TILESIZE) : 0); 
+		let maxX = sq.BR ? (sq.BR.sprite.position.x / TILESIZE) : (sq.TR ? (sq.TR.sprite.position.x / TILESIZE) : Game.map.map.length);
+		let maxY = sq.BR ? (sq.BR.sprite.position.y / TILESIZE) : (sq.BL ? (sq.BL.sprite.position.y / TILESIZE) : Game.map.map[0].length);
 
 		var canvas = document.getElementById('minimaplayer');
 		var ctx = canvas.getContext('2d');
 		ctx.clearRect(0, 0, Game.map.map.length, Game.map.map[0].length);
 
 		ctx.beginPath();
-		ctx.strokeStyle = 'red';
+		ctx.strokeStyle = 'rgb(50, 50, 50)';
 		ctx.rect(minX, minY, maxX - minX, maxY - minY);
 		ctx.stroke();
 		ctx.closePath();

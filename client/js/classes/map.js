@@ -70,6 +70,8 @@ class Map {
 			}
 		}
 
+		this.hideAllTiles();
+		this.lastViewPort = this.getViewportSquare();
 		this.cul();
 
 		setTimeout(function() {
@@ -162,14 +164,11 @@ class Map {
 			let direction = (e.deltaY < 0) ? 1 : -1;
 			let factor = (1 + direction * 0.1);
 
-
 			if((direction == -1 && Game.map.scene.scale.x > 0.15) || (direction == 1 && Game.map.scene.scale.x < 1.85)) {
 				Game.map.scene.scale.x *= factor;
 				Game.map.scene.scale.y *= factor;
 			}
 
-			// Zoom in on mouse position
-			// Broken updatetransform, fix in future
 			let before = this.getCoordinates(new Vector2(e.clientX, e.clientY));
 			Game.map.scene.updateTransform();
 			let after = this.getCoordinates(new Vector2(e.clientX, e.clientY));
@@ -183,21 +182,43 @@ class Map {
 		});
 	}
 
-	cul() {
-		let TL = this.getTileForRealPosition(new Vector2(0, 0));
-		let BR = this.getTileForRealPosition(new Vector2(Game.viewport.width, Game.viewport.height));
-
-		let minX = TL ? (TL.sprite.position.x / TILESIZE) : 0;
-		let minY = TL ? (TL.sprite.position.y / TILESIZE) : 0; 
-		let maxX = BR ? (BR.sprite.position.x / TILESIZE) : this.map[0].length;
-		let maxY = BR ? (BR.sprite.position.y / TILESIZE) : this.map[0].length;
-
+	hideAllTiles() {
 		for(var y = 0; y < this.map[0].length; y++) {
 			for(var x = 0; x < this.map.length; x++) {
-				if((x < minX || x > maxX) && (y < minY || y > maxY)) {
-					this.map[x][y].sprite.visible = false;
-				} else {
-					this.map[x][y].sprite.visible = true;
+				this.map[x][y].sprite.visible = false;
+			}
+		}
+	}
+
+	cul() {
+		if(this.lastViewport) {
+			var sx = this.lastViewport.TL ? this.lastViewport.TL.sprite.position.x / TILESIZE : 0;
+			var sy = this.lastViewport.TL ? this.lastViewport.TL.sprite.position.y / TILESIZE : 0;
+			var xx = this.lastViewport.TL && this.lastViewport.BR ? (this.lastViewport.BR.sprite.position.x / TILESIZE) - (this.lastViewport.TL.sprite.position.x / TILESIZE) + 1 : 0;
+			var yy = this.lastViewport.TL && this.lastViewport.BR ? (this.lastViewport.BR.sprite.position.y / TILESIZE) - (this.lastViewport.TL.sprite.position.y / TILESIZE) + 1 : 0;
+
+			for (var i = 0; i < yy; i++) {
+				for (var j = 0; j < xx; j++) {
+					if(this.map[j + sx] && this.map[j + sx][i + sy]) {
+						this.map[j + sx][i + sy].sprite.visible = false;
+					}
+				}
+			}
+		}
+
+		this.lastViewport = this.getViewportSquare();
+
+		if(this.lastViewport) {
+			var sx = this.lastViewport.TL ? this.lastViewport.TL.sprite.position.x / TILESIZE : 0;
+			var sy = this.lastViewport.TL ? this.lastViewport.TL.sprite.position.y / TILESIZE : 0;
+			var xx = this.lastViewport.TL && this.lastViewport.BR ? (this.lastViewport.BR.sprite.position.x / TILESIZE) - (this.lastViewport.TL.sprite.position.x / TILESIZE) + 1 : 0;
+			var yy = this.lastViewport.TL && this.lastViewport.BR ? (this.lastViewport.BR.sprite.position.y / TILESIZE) - (this.lastViewport.TL.sprite.position.y / TILESIZE) + 1 : 0;
+
+			for (var i = 0; i < yy; i++) {
+				for (var j = 0; j < xx; j++) {
+					if(this.map[j + sx] && this.map[j + sx][i + sy]) {
+						this.map[j + sx][i + sy].sprite.visible = true;
+					}
 				}
 			}
 		}
@@ -266,6 +287,64 @@ class Map {
 
 	nearestTileWorldPosition(vec2) {
 		return new Vector2(Math.floor(vec2.x / TILESIZE) * TILESIZE, Math.floor(vec2.y / TILESIZE) * TILESIZE);
+	}
+
+	getViewportSquare() {
+		var viewport = {
+			TL: this.getTileForRealPosition(new Vector2(0, 0)),
+			TR: this.getTileForRealPosition(new Vector2(Game.viewport.width, 0)),
+			BL: this.getTileForRealPosition(new Vector2(0, Game.viewport.height)),
+			BR: this.getTileForRealPosition(new Vector2(Game.viewport.width, Game.viewport.height))
+		};
+
+		// Only exception
+		if(!viewport.TR && !viewport.BR && !viewport.BL && viewport.TL) {
+			viewport.TR = this.getTileForMapPosition(new Vector2(this.map.length - 1, viewport.TL.sprite.position.y / TILESIZE));
+			viewport.BR = this.getTileForMapPosition(new Vector2(this.map.length - 1, this.map[0].length - 1));
+			viewport.BL = this.getTileForMapPosition(new Vector2(viewport.TL.sprite.position.x / TILESIZE, this.map[0].length - 1));
+		}
+
+		if(!viewport.TL) {
+			if(viewport.TR) {
+				viewport.TL = this.getTileForMapPosition(new Vector2(0, viewport.TR.sprite.position.y / TILESIZE));
+			}
+
+			if(!viewport.TL && viewport.BL) {
+				viewport.TL = this.getTileForMapPosition(new Vector2(viewport.BL.sprite.position.x / TILESIZE, 0));
+			}
+		}
+
+		if(!viewport.TR) {
+			if(viewport.TL) {
+				viewport.TR = this.getTileForMapPosition(new Vector2(viewport.TL.sprite.position.x / TILESIZE, this.map.length - 1));
+			}
+
+			if(!viewport.TR && viewport.BR) {
+				viewport.TR = this.getTileForMapPosition(new Vector2(viewport.BR.sprite.position.x / TILESIZE, 0));
+			}
+		}
+
+		if(!viewport.BR) {
+			if(viewport.BL) {
+				viewport.BR = this.getTileForMapPosition(new Vector2(this.map.length - 1, viewport.BL.sprite.y / TILESIZE));
+			}
+
+			if(!viewport.BR && viewport.TR) {
+				viewport.BR = this.getTileForMapPosition(new Vector2(viewport.TR.sprite.position.x / TILESIZE, this.map[0].length - 1));
+			}
+		}
+
+		if(!viewport.BL) {
+			if(viewport.TL) {
+				viewport.BL = this.getTileForMapPosition(new Vector2(viewport.TL.sprite.x / TILESIZE, this.map[0].length - 1));
+			}
+
+			if(!viewport.BL && viewport.BR) {
+				viewport.BL = this.getTileForMapPosition(new Vector2(0, viewport.BR.sprite.y / TILESIZE));
+			}
+		}
+
+		return viewport;
 	}
 
 	setShadowOffset(vec2) {
