@@ -64,7 +64,7 @@ class Map {
 
 				this.scene.addChild(tile.sprite);
 
-				this.generateTree(value, x, y);
+				this.generateTree(value, new Vector2(x, y));
 
 				this.map[x][y] = tile;
 			}
@@ -80,13 +80,13 @@ class Map {
 		}, 100);
 	}
 
-	generateTree(value, x, y) {
+	generateTree(value, vec2) {
 		// Trees
 		if(value > 0.35 && value < 0.50) {
 			var rand = Math.floor(Math.random() * 100);
 
 			if(rand > 75) {
-				var tree = new Tree(new Vector2(x, y), TREE_TYPES.NORMAL);
+				var tree = new Tree(vec2, TREE_TYPES.NORMAL);
 
 				this.scene.addChild(tree.shadow);
 				this.scene.addChild(tree.sprite);
@@ -99,7 +99,7 @@ class Map {
 			var rand = Math.floor(Math.random() * 100);
 
 			if(rand > 90) {
-				var tree = new Tree(new Vector2(x, y), TREE_TYPES.PALM);
+				var tree = new Tree(vec2, TREE_TYPES.PALM);
 
 				this.scene.addChild(tree.shadow);
 				this.scene.addChild(tree.sprite);
@@ -147,8 +147,9 @@ class Map {
 				let tile = new Vector2(tilePosition.x / TILESIZE, tilePosition.y / TILESIZE);
 
 				if (Game.map.isInMap(tile)) {
-					if (Game.map.canBuildHere(tile))
-					new Building(tilePosition.x, tilePosition.y, 'command');
+					if (Game.map.canBuildHere(tile)) {
+						Game.player.placeBuilding('command', tilePosition);
+					}
 				}
 			}
 
@@ -271,7 +272,7 @@ class Map {
 		var fx = Math.floor(xx / TILESIZE);
 		var fy = Math.floor(yy / TILESIZE);
 
-		if(fx < 0 || fy < 0 || fx > this.map.length || fy > this.map[0].length) {
+		if (!this.isInMap(new Vector2(fx, fy))) {
 			return false;
 		}
 

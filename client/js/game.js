@@ -25,6 +25,9 @@ class Game {
 			window.onresize = Game.onResize;
 			Game.updateEvents = {};
 
+			// Init player
+			Game.player = new Player();
+
 			// Init GUI
 			Game.GUI = new GUI();
 
