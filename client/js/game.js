@@ -28,6 +28,9 @@ class Game {
 			// Init player
 			Game.player = new Player();
 
+			// Init construction manager
+			Game.ConstructionHandler = new ConstructionHandler();
+
 			// Init GUI
 			Game.GUI = new GUI();
 
