@@ -1,67 +1,67 @@
 class SceneHandler {
-	constructor() {
-		this.rootScene = new PIXI.Container();
-		this.rootScene.displayList = new PIXI.DisplayList();
-		this.scenes = {};
-	}
+    constructor() {
+        this.rootScene = new PIXI.Container();
+        this.rootScene.displayList = new PIXI.DisplayList();
+        this.scenes = {};
+    }
 
-	createScene(name, visible, index) {
-		index = index || 0;
-		var scene = new PIXI.Container();
-		//scene.displayList = new PIXI.DisplayList();
+    createScene(name, visible, index) {
+        index = index || 0;
+        var scene = new PIXI.Container();
+        //scene.displayList = new PIXI.DisplayList();
 
-		this.scenes[name] = scene;
-		this.setIndex(name, index);
-		this.rootScene.addChild(this.scenes[name]);
+        this.scenes[name] = scene;
+        this.setIndex(name, index);
+        this.rootScene.addChild(this.scenes[name]);
 
-		return scene;
-	}
+        return scene;
+    }
 
-	destroyScene(name) {
-		if(!this.scenes.hasOwnProperty(name)) {
-			return false;
-		}
-		
-		var scene = this.scenes[name];
-		this.rootScene.removeChild(scene);
-		scene.destroy();
+    destroyScene(name) {
+        if (!this.scenes.hasOwnProperty(name)) {
+            return false;
+        }
 
-		return true;
-	}
+        var scene = this.scenes[name];
+        this.rootScene.removeChild(scene);
+        scene.destroy();
 
-	showScene(name) {
-		if(!this.scenes.hasOwnProperty(name)) {
-			return false;
-		}
+        return true;
+    }
 
-		this.scenes[name].scene.visible = true;
+    showScene(name) {
+        if (!this.scenes.hasOwnProperty(name)) {
+            return false;
+        }
 
-		return true;
-	}
+        this.scenes[name].scene.visible = true;
 
-	hideScene(name) {
-		if(!this.scenes.hasOwnProperty(name)) {
-			return false;
-		}
+        return true;
+    }
 
-		this.scenes[name].visible = false;
+    hideScene(name) {
+        if (!this.scenes.hasOwnProperty(name)) {
+            return false;
+        }
 
-		return true;
-	}
+        this.scenes[name].visible = false;
 
-	setIndex(name, index) {
-		if(!this.scenes.hasOwnProperty(name)) {
-			return false;
-		}
+        return true;
+    }
 
-		this.scenes[name].displayGroup = new PIXI.DisplayGroup(index, false);
+    setIndex(name, index) {
+        if (!this.scenes.hasOwnProperty(name)) {
+            return false;
+        }
 
-		return true;
-	}
+        this.scenes[name].displayGroup = new PIXI.DisplayGroup(index, false);
 
-	render() {
-		Game.renderer.render(this.rootScene);
+        return true;
+    }
 
-		return true;
-	}
+    render() {
+        Game.renderer.render(this.rootScene);
+
+        return true;
+    }
 }

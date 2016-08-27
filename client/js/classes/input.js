@@ -1,155 +1,155 @@
 class Input {
-	constructor() {
-		// Define variables
-		this.onMouseDownEvents = {};
-		this.onMouseUpEvents = {};
-		this.onMouseMoveEvents = {};
-		this.onMouseWheelEvents = {};
-		this.onKeyDownEvents = {};
-		this.onKeyUpEvents = {};
-		this.keysDown = [];
+    constructor() {
+        // Define variables
+        this.onMouseDownEvents = {};
+        this.onMouseUpEvents = {};
+        this.onMouseMoveEvents = {};
+        this.onMouseWheelEvents = {};
+        this.onKeyDownEvents = {};
+        this.onKeyUpEvents = {};
+        this.keysDown = [];
 
-		// Register events
-		document.onmousedown = this.mouseDown;
-		document.onmouseup = this.mouseUp;
-		document.onmousemove = this.mouseMove;
-		document.onwheel = this.mouseWheel;
-		document.onkeydown = this.keyDown;
-		document.onkeyup = this.keyUp;
-		document.oncontextmenu = this.contextMenu;
+        // Register events
+        document.onmousedown = this.mouseDown;
+        document.onmouseup = this.mouseUp;
+        document.onmousemove = this.mouseMove;
+        document.onwheel = this.mouseWheel;
+        document.onkeydown = this.keyDown;
+        document.onkeyup = this.keyUp;
+        document.oncontextmenu = this.contextMenu;
 
-		return this;
-	}
+        return this;
+    }
 
-	mouseDown(e) {
-		for(var key in Game.input.onMouseDownEvents) {
-			Game.input.onMouseDownEvents[key](e);
-		}
+    mouseDown(e) {
+        for (var key in Game.input.onMouseDownEvents) {
+            Game.input.onMouseDownEvents[key](e);
+        }
 
-		return true;
-	}
+        return true;
+    }
 
-	mouseUp(e) {
-		for(var key in Game.input.onMouseUpEvents) {
-			Game.input.onMouseUpEvents[key](e);
-		}
+    mouseUp(e) {
+        for (var key in Game.input.onMouseUpEvents) {
+            Game.input.onMouseUpEvents[key](e);
+        }
 
-		return true;
-	}
+        return true;
+    }
 
-	mouseMove(e) {
-		for(var key in Game.input.onMouseMoveEvents) {
-			Game.input.onMouseMoveEvents[key](e);
-		}
+    mouseMove(e) {
+        for (var key in Game.input.onMouseMoveEvents) {
+            Game.input.onMouseMoveEvents[key](e);
+        }
 
-		return true;
-	}
+        return true;
+    }
 
-	mouseWheel(e) {
-		for(var key in Game.input.onMouseWheelEvents) {
-			Game.input.onMouseWheelEvents[key](e);
-		}
+    mouseWheel(e) {
+        for (var key in Game.input.onMouseWheelEvents) {
+            Game.input.onMouseWheelEvents[key](e);
+        }
 
-		return true;
-	}
+        return true;
+    }
 
-	keyDown(e) {
-		for(var key in Game.input.onKeyDownEvents) {
-			Game.input.onKeyDownEvents[key](e);
-		}
+    keyDown(e) {
+        for (var key in Game.input.onKeyDownEvents) {
+            Game.input.onKeyDownEvents[key](e);
+        }
 
-		Game.input.keysDown.push(e.which);
+        Game.input.keysDown.push(e.which);
 
-		return true;
-	}
+        return true;
+    }
 
-	keyUp(e) {
-		for(var key in Game.input.onKeyUpEvents) {
-			Game.input.onKeyUpEvents[key](e);
-		}
+    keyUp(e) {
+        for (var key in Game.input.onKeyUpEvents) {
+            Game.input.onKeyUpEvents[key](e);
+        }
 
-		var index = Game.input.keysDown.indexOf(e.which);
-		if(index > -1) {
-			Game.input.keysDown.splice(index, 1);
-		}
+        var index = Game.input.keysDown.indexOf(e.which);
+        if (index > -1) {
+            Game.input.keysDown.splice(index, 1);
+        }
 
-		return true;
-	}
+        return true;
+    }
 
-	contextMenu(e) {
-		e.preventDefault();
-		return false;
-	}
+    contextMenu(e) {
+        e.preventDefault();
+        return false;
+    }
 
-	onMouseDown(id, func) {
-		this.onMouseDownEvents[id] = func;
+    onMouseDown(id, func) {
+        this.onMouseDownEvents[id] = func;
 
-		return true;
-	}
+        return true;
+    }
 
-	removeMouseDown(id) {
-		delete this.onMouseDownEvents[id];
+    removeMouseDown(id) {
+        delete this.onMouseDownEvents[id];
 
-		return true;
-	}
+        return true;
+    }
 
-	onMouseUp(id, func) {
-		this.onMouseUpEvents[id] = func;
+    onMouseUp(id, func) {
+        this.onMouseUpEvents[id] = func;
 
-		return true;
-	}
+        return true;
+    }
 
-	removeMouseUp(id) {
-		delete this.onMouseUpEvents[id];
+    removeMouseUp(id) {
+        delete this.onMouseUpEvents[id];
 
-		return true;
-	}
+        return true;
+    }
 
-	onMouseMove(id, func) {
-		this.onMouseMoveEvents[id] = func;
+    onMouseMove(id, func) {
+        this.onMouseMoveEvents[id] = func;
 
-		return true;
-	}
+        return true;
+    }
 
-	removeMouseMove(id) {
-		delete this.onMouseMoveEvents[id];
+    removeMouseMove(id) {
+        delete this.onMouseMoveEvents[id];
 
-		return true;
-	}
+        return true;
+    }
 
-	onMouseWheel(id, func) {
-		this.onMouseWheelEvents[id] = func;
+    onMouseWheel(id, func) {
+        this.onMouseWheelEvents[id] = func;
 
-		return true;
-	}
+        return true;
+    }
 
-	removeMouseWheel(id) {
-		delete this.onMouseWheelEvents[id];
+    removeMouseWheel(id) {
+        delete this.onMouseWheelEvents[id];
 
-		return true;
-	}
+        return true;
+    }
 
-	onKeyDown(id, func) {
-		this.onKeyDownEvents[id] = func;
+    onKeyDown(id, func) {
+        this.onKeyDownEvents[id] = func;
 
-		return true;
-	}
+        return true;
+    }
 
-	removeKeyDown(id) {
-		delete this.onKeyDownEvents[id];
+    removeKeyDown(id) {
+        delete this.onKeyDownEvents[id];
 
-		return true;
-	}
+        return true;
+    }
 
-	onKeyUp(id, func) {
-		this.onKeyUpEvents[id] = func;
+    onKeyUp(id, func) {
+        this.onKeyUpEvents[id] = func;
 
-		return true;
-	}
+        return true;
+    }
 
-	removeKeyUp(id) {
-		delete this.onKeyUpEvents[id];
+    removeKeyUp(id) {
+        delete this.onKeyUpEvents[id];
 
-		return true;
-	}
+        return true;
+    }
 }

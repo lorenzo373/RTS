@@ -1,22 +1,22 @@
 class ConstructionHandler {
-	constructor() {
-		this.constructions = [];
+    constructor() {
+        this.constructions = [];
 
-		this.loadConstructions();
-	}
+        this.loadConstructions();
+    }
 
-	loadConstructions() {
-		this.loadYAMLFile("constructions.yaml", this.parseConstruction);
-	}
+    loadConstructions() {
+        this.loadYAMLFile("constructions.yaml", this.parseConstruction);
+    }
 
-	loadYAMLFile(filename, callback) {
+    loadYAMLFile(filename, callback) {
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
             if (xhttp.readyState == 4 && xhttp.status == 200) {
                 //convert YAML to a json object
                 var output = jsyaml.safeLoad(xhttp.response);
-                
-                var constructionArray = Object.keys(output).map(function (key) {
+
+                var constructionArray = Object.keys(output).map(function(key) {
                     //little bit of a workaround to add the name of the construction to the array
                     var outputArray = output[key];
                     outputArray["name"] = key;
@@ -27,7 +27,7 @@ class ConstructionHandler {
                 for (var index = 0; index < constructionArray.length; index++) {
                     callback(constructionArray[index]);
 
-                    if (index==constructionArray.length-1) {
+                    if (index == constructionArray.length - 1) {
                         //TODO: if we finished looping through all constructions, initialize the construction menu
                     }
                 }
@@ -37,8 +37,8 @@ class ConstructionHandler {
         xhttp.send();
     }
 
-	parseConstruction(yaml) {
-		//generate menu sprite
+    parseConstruction(yaml) {
+        //generate menu sprite
         /*var editpic = game.make.sprite(0, 0, yaml.sprite);
 
         if (yaml.isTileable) {
@@ -46,5 +46,5 @@ class ConstructionHandler {
         }*/
 
         Game.ConstructionHandler.constructions.push(new Construction(yaml.sprite, yaml.cost));
-	}
+    }
 }

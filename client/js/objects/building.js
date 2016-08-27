@@ -1,14 +1,14 @@
 class Building extends Entity {
-	constructor(vec2, sprite) {
-		super(vec2);
+    constructor(vec2, sprite) {
+        super(vec2);
 
-		var texture = Game.assets.getAsset(sprite);
-		this.sprite = new PIXI.Sprite(texture);
+        var texture = Game.assets.getAsset(sprite);
+        this.sprite = new PIXI.Sprite(texture);
 
-		this.sprite.position.x = vec2.x;
-		this.sprite.position.y = vec2.y;
-		this.sprite.displayGroup = new PIXI.DisplayGroup(3, false);
+        this.sprite.position.x = vec2.x;
+        this.sprite.position.y = vec2.y;
+        this.sprite.displayGroup = new PIXI.DisplayGroup(3, false);
 
-		Game.sceneHandler.scenes['map'].addChild(this.sprite);
-	}
+        Game.sceneHandler.scenes['map'].addChild(this.sprite);
+    }
 }
