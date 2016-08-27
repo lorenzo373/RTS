@@ -15,14 +15,4 @@ class Resource {
 		this.sprite.position.x = this.position.x * TILESIZE;
 		this.sprite.position.y = this.position.y * TILESIZE;
 	}
-
-	destroy() {
-		if(this.sprite) {
-			this.sprite.destroy();
-		}
-
-		if(this.guiSprite) {
-			this.guiSprite.destroy();
-		}
-	}
 }

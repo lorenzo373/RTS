@@ -109,10 +109,6 @@ class Map {
 	}
 
 	destroyAllResources() {
-		for(var i = 0; i < this.resources.length; i++) {
-			this.resources[i].destroy();
-		}
-
 		delete this.resources;
 		this.resources = [];
 
