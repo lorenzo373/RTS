@@ -123,7 +123,11 @@ class Map {
 		Game.input.onMouseDown('mapDrag', e => {
 			// Left mouse button
 			if(e.which === 1) {
-				console.log(Game.map.getTileForRealPosition(new Vector2(e.clientX, e.clientY)).type.name);
+				let mousePosition = Game.map.getTileForRealPosition(new Vector2(e.clientX, e.clientY));
+
+				if (mousePosition != false) {
+					console.log(mousePosition.type.name);
+				}
 			}
 
 			// Right mouse button
@@ -140,7 +144,12 @@ class Map {
 
 				let tilePosition = this.nearestTileWorldPosition(mousePosition);
 
-				new Building(tilePosition.x, tilePosition.y, 'command');
+				let tile = new Vector2(tilePosition.x / TILESIZE, tilePosition.y / TILESIZE);
+
+				if (Game.map.isInMap(tile)) {
+					if (Game.map.canBuildHere(tile))
+					new Building(tilePosition.x, tilePosition.y, 'command');
+				}
 			}
 
 			// Right mouse button
@@ -222,6 +231,22 @@ class Map {
 				}
 			}
 		}
+	}
+
+	isInMap(vec2) {
+		if(vec2.x < 0 || vec2.y < 0 || vec2.x > this.map.length || vec2.y > this.map[0].length) {
+			return false;
+		}
+
+		return true;
+	}
+
+	canBuildHere(vec2) {
+		if (Game.map.getTileForMapPosition(vec2).type.category === 2) {
+			return false;
+		}
+
+		return true;
 	}
 
 	getTileForMapPosition(vec2) {

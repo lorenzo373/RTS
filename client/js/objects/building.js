@@ -7,7 +7,8 @@ class Building extends Entity {
 
 		this.sprite.position.x = x;
 		this.sprite.position.y = y;
-		
+		this.sprite.displayGroup = new PIXI.DisplayGroup(3, false);
+
 		Game.sceneHandler.scenes['map'].addChild(this.sprite);
 	}
 }
