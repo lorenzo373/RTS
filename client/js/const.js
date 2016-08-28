@@ -28,3 +28,8 @@ var SHADOWOFFSET = {
 	x: 4,
 	y: 4
 };
+
+// Layers
+const LAYER_GROUND = new PIXI.DisplayGroup(0, false);
+const LAYER_SHADOW = new PIXI.DisplayGroup(1, false);
+const LAYER_DECORATIONS = new PIXI.DisplayGroup(3, false);

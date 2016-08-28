@@ -1,85 +1,99 @@
 class Game {
-	static init() {
-		// Create renderer
-		Game.renderer = PIXI.autoDetectRenderer(RENDERER_WIDTH, RENDERER_HEIGHT, { transparent: true });
-		Game.renderer.autoResize = true;
-		Game.renderer.resize(document.documentElement.clientWidth, document.documentElement.clientHeight);
+    static init() {
+        // Create renderer
+        Game.renderer = PIXI.autoDetectRenderer(RENDERER_WIDTH, RENDERER_HEIGHT, {
+            transparent: true
+        });
+        Game.renderer.autoResize = true;
+        Game.renderer.resize(document.documentElement.clientWidth, document.documentElement.clientHeight);
 
-		// Set viewport
-		Game.viewport = { width: document.documentElement.clientWidth, height: document.documentElement.clientHeight };
+        // Set viewport
+        Game.viewport = {
+            width: document.documentElement.clientWidth,
+            height: document.documentElement.clientHeight
+        };
 
-		// Add renderer to document
-		document.body.appendChild(Game.renderer.view);
+        // Add renderer to document
+        document.body.appendChild(Game.renderer.view);
 
-		// Create input handler
-		Game.input = new Input();
+        // Create input handler
+        Game.input = new Input();
 
-		// Load assets
-		Game.assets = new Assets();
+        // Load assets
+        Game.assets = new Assets();
 
-		Game.assets.loadAssetsFolder(function() {
-			// Create root scene
-			Game.sceneHandler = new SceneHandler();
+        Game.assets.loadAssetsFolder(function() {
+            // Create root scene
+            Game.sceneHandler = new SceneHandler();
 
-			// Bind events & create handlers
-			window.onresize = Game.onResize;
-			Game.updateEvents = {};
+            // Bind events & create handlers
+            window.onresize = Game.onResize;
+            Game.updateEvents = {};
 
-			// Init GUI
-			Game.GUI = new GUI();
+            // Init player
+            Game.player = new Player();
 
-			// Create map
-			Game.map = new Map(MAP_WIDTH, MAP_HEIGHT);
-			Game.GUI.loadMinimap();
+            // Init construction manager
+            Game.ConstructionHandler = new ConstructionHandler();
 
-			// Start render loop
-			Game.frame = 0;
-			Game.lastLoop = new Date;
-			Game.render();
-		});
-	}
+            // Init GUI
+            Game.GUI = new GUI();
 
-	static render() {
-		Game.frame++;
-		Game.fps = Math.floor(1000 / (new Date - Game.lastLoop));
-		Game.lastLoop = new Date;
+            // Create map
+            Game.map = new Map(MAP_WIDTH, MAP_HEIGHT);
+            Game.GUI.loadMinimap();
 
-		// Update
-		Game.update();
+            // Start render loop
+            Game.frame = 0;
+            Game.lastLoop = new Date;
+            Game.render();
+        });
+    }
 
-		// Request animation frame
-		requestAnimationFrame(Game.render);
+    static render() {
+        Game.frame++;
+        Game.fps = Math.floor(1000 / (new Date - Game.lastLoop));
+        Game.lastLoop = new Date;
 
-		// Render scenes
-		Game.sceneHandler.render();
-	}
+        // Update
+        Game.update();
 
-	static onResize() {
-		// Resize renderer
-		Game.renderer.resize(document.documentElement.clientWidth, document.documentElement.clientHeight);
+        // Request animation frame
+        requestAnimationFrame(Game.render);
 
-		// Set viewport
-		Game.viewport = { width: document.documentElement.clientWidth, height: document.documentElement.clientHeight };
+        // Render scenes
+        Game.sceneHandler.render();
+    }
 
-		// Cul
-		Game.map.cul();
-	}
+    static onResize() {
+        // Resize renderer
+        Game.renderer.resize(document.documentElement.clientWidth, document.documentElement.clientHeight);
 
-	static update() {
-		for(var key in Game.updateEvents) {
-			Game.updateEvents[key](Game.frame);
-		}
-	}
+        // Set viewport
+        Game.viewport = {
+            width: document.documentElement.clientWidth,
+            height: document.documentElement.clientHeight
+        };
 
-	static registerUpdate(id, func) {
-		Game.updateEvents[id] = func;
+        // Cul
+        Game.map.cul();
+    }
 
-		return true;
-	}
+    static update() {
+        for (var key in Game.updateEvents) {
+            Game.updateEvents[key](Game.frame);
+        }
+    }
 
-	static removeUpdate(id) {
-		delete Game.updateEvents[id];
+    static registerUpdate(id, func) {
+        Game.updateEvents[id] = func;
 
-		return true;
-	}
+        return true;
+    }
+
+    static removeUpdate(id) {
+        delete Game.updateEvents[id];
+
+        return true;
+    }
 }
