@@ -60,7 +60,7 @@ class Map {
 
                 tile.sprite.position.x = x * TILESIZE;
                 tile.sprite.position.y = y * TILESIZE;
-                tile.sprite.displayGroup = new PIXI.DisplayGroup(0, false);
+                tile.sprite.displayGroup = LAYER_GROUND;
 
                 this.scene.addChild(tile.sprite);
 

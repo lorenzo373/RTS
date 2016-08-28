@@ -14,12 +14,12 @@ class Tree extends Resource {
 
         super(position, RESOURCE_TYPES.TREE, 40, new PIXI.Sprite(texture), null);
         this.sprite.tint = Game.assets.randomTint(40);
-        this.sprite.displayGroup = new PIXI.DisplayGroup(3, false);
+        this.sprite.displayGroup = LAYER_DECORATIONS;
 
         this.shadow = new PIXI.Sprite(texture);
         this.shadow.tint = 0x000000;
         this.shadow.alpha = 0.3;
-        this.shadow.displayGroup = new PIXI.DisplayGroup(1, false);
+        this.shadow.displayGroup = LAYER_SHADOW;
 
         this.shadow.position = this.sprite.position;
         this.shadow.position.x += SHADOWOFFSET.x;

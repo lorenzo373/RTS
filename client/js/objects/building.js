@@ -7,7 +7,7 @@ class Building extends Entity {
 
         this.sprite.position.x = vec2.x;
         this.sprite.position.y = vec2.y;
-        this.sprite.displayGroup = new PIXI.DisplayGroup(3, false);
+        this.sprite.displayGroup = LAYER_DECORATIONS;
 
         Game.sceneHandler.scenes['map'].addChild(this.sprite);
     }
