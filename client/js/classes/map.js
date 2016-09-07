@@ -203,6 +203,7 @@ class Map {
     }
 
     cul() {
+        // TODO: only cul when there is a change of viewport
         if (this.lastViewport) {
             var sx = this.lastViewport.TL ? this.lastViewport.TL.sprite.position.x / TILESIZE : 0;
             var sy = this.lastViewport.TL ? this.lastViewport.TL.sprite.position.y / TILESIZE : 0;
@@ -325,11 +326,24 @@ class Map {
             BR: this.getTileForRealPosition(new Vector2(Game.viewport.width, Game.viewport.height))
         };
 
-        // Only exception
+        // Exceptions
         if (!viewport.TR && !viewport.BR && !viewport.BL && viewport.TL) {
             viewport.TR = this.getTileForMapPosition(new Vector2(this.map.length - 1, viewport.TL.sprite.position.y / TILESIZE));
             viewport.BR = this.getTileForMapPosition(new Vector2(this.map.length - 1, this.map[0].length - 1));
             viewport.BL = this.getTileForMapPosition(new Vector2(viewport.TL.sprite.position.x / TILESIZE, this.map[0].length - 1));
+        }
+
+        if(!viewport.TL && !viewport.TR && !viewport.BL && viewport.BR) {
+            viewport.TL = this.getTileForMapPosition(new Vector2(0, 0));
+            viewport.TR = this.getTileForMapPosition(new Vector2(viewport.BR.sprite.position.x / TILESIZE, 0));
+            viewport.BL = this.getTileForMapPosition(new Vector2(0, viewport.BR.sprite.position.y / TILESIZE));
+        }
+
+        if(!viewport.TL && !viewport.TR && !viewport.BL && !viewport.BR) {
+            viewport.TL = this.getTileForMapPosition(new Vector2(0, 0));
+            viewport.TR = this.getTileForMapPosition(new Vector2(this.map.length - 1, 0));
+            viewport.BR = this.getTileForMapPosition(new Vector2(this.map.length - 1, this.map[0].length - 1));
+            viewport.BL = this.getTileForMapPosition(new Vector2(0, this.map[0].length - 1));
         }
 
         if (!viewport.TL) {

@@ -1,3 +1,8 @@
+@font-face {
+    font-family: custom;
+    src: url(../fonts/Ancient_Medium.ttf);
+}
+
 html, body {
 	margin: 0;
 	padding: 0;
@@ -15,4 +20,41 @@ body {
     left: 20px;
     width: 200px;
     height: 200px;
+}
+
+#minimap-frame {
+	position: absolute;
+	z-index: 101;
+	bottom: 0;
+	left: 0;
+}
+
+#top-frame {
+	position: absolute;
+	z-index: 101;
+	top: 0;
+	left: 50%;
+	margin-left: -180px;
+}
+
+#top-frame-time {
+	position: absolute;
+	z-index: 102;
+	top: 0;
+	left: 50%;
+	margin-left: -180px;
+	width: 360px;
+	height: 45px;
+	font-size: 40px;
+	text-align: center;
+	font-family: custom;
+	line-height: 34px;
+	color: #fffde7;
+}
+
+#bottom-frame {
+	position: absolute;
+	z-index: 101;
+	bottom: 0;
+	right: 0;
 }
