@@ -10,6 +10,7 @@ class Assets {
         //if we're on gh-pages, load manually since it doesn't execute PHP
         if (window.location.href == "https://lorenzo373.github.io/RTS/client/") {
             this.addAsset('command', 'buildings/command.png');
+            this.addAsset('house', 'buildings/house.png');
 
             this.addAsset('grass', 'tiles/grass.png');
             this.addAsset('ocean', 'tiles/ocean.png');
@@ -58,7 +59,8 @@ class Assets {
     addAsset(identifier, sprite) {
         this.textures.push({
             "identifier": identifier,
-            "sprite": PIXI.Texture.fromImage(this.ASSET_DIR + sprite)
+            "sprite": PIXI.Texture.fromImage(this.ASSET_DIR + sprite),
+            "spriteURI": this.ASSET_DIR + sprite
         });
     }
 
@@ -70,6 +72,16 @@ class Assets {
         }
 
         console.log('Assets: asset with identifier "' + identifier + '" requested but not found');
+    }
+
+    getAssetURI(identifier) {
+        for (var index = 0; index < this.textures.length; index++) {
+            if (this.textures[index].identifier === identifier) {
+                return this.textures[index].spriteURI;
+            }
+        }
+
+        console.log('Assets: asset URI with identifier "' + identifier + '" requested but not found');
     }
 
     randomTint(threshold) {

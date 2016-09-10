@@ -124,6 +124,39 @@ class Map {
                 if (mousePosition != false) {
                     console.log(mousePosition.type.name);
                 }
+
+                var constructionsCanvas = document.getElementById('constructionslayer');
+                var rect = constructionsCanvas.getBoundingClientRect();
+
+                if(rect.left <= e.clientX && e.clientX <= rect.right && rect.top <= e.clientY && e.clientY <= rect.bottom ) {
+                    var offsetX = 25;
+
+                    for (var construction in Game.ConstructionHandler.constructions) {
+                        if(rect.left+offsetX-4 <= e.clientX && e.clientX <= rect.left+offsetX-4+75 && rect.top+12 <= e.clientY && e.clientY <= rect.top+12+75 ) {
+                            var constructionObj = Game.ConstructionHandler.constructions[construction];
+
+                            Game.ConstructionHandler.selectedConstruction = constructionObj;
+                            Game.GUI.renderConstructions();
+                            break;
+                        }
+
+                        offsetX += 100;
+                    }
+                } else {
+                    let mousePosition = this.getCoordinates(new Vector2(e.clientX, e.clientY));
+
+                    let tilePosition = this.nearestTileWorldPosition(mousePosition);
+
+                    let tile = new Vector2(tilePosition.x / TILESIZE, tilePosition.y / TILESIZE);
+
+                    if (Game.map.isInMap(tile)) {
+                        if (Game.map.canBuildHere(tile)) {
+                            if (Game.ConstructionHandler.selectedConstruction) {
+                                Game.player.placeBuilding(Game.ConstructionHandler.selectedConstruction.sprite, tilePosition);
+                            }
+                        }
+                    }
+                }
             }
 
             // Right mouse button
@@ -137,21 +170,6 @@ class Map {
         });
 
         Game.input.onMouseUp('mapDrag', e => {
-            // Left mouse button
-            if (e.which === 1) {
-                let mousePosition = this.getCoordinates(new Vector2(e.clientX, e.clientY));
-
-                let tilePosition = this.nearestTileWorldPosition(mousePosition);
-
-                let tile = new Vector2(tilePosition.x / TILESIZE, tilePosition.y / TILESIZE);
-
-                if (Game.map.isInMap(tile)) {
-                    if (Game.map.canBuildHere(tile)) {
-                        Game.player.placeBuilding('command', tilePosition);
-                    }
-                }
-            }
-
             // Right mouse button
             if (e.which === 3) {
                 Game.map.isDragging = false;
