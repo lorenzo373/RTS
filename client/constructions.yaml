@@ -1,3 +1,9 @@
-House:
+command:
+  name: Command
+  sprite: command
+  cost: 7
+  
+house:
+  name: House
   sprite: house
   cost: 7

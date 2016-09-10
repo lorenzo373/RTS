@@ -12,6 +12,13 @@ html, body {
 body {
 	background-color: black;
 	background-image: url('../assets/background.jpg');
+
+	-webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .minimap {
@@ -57,4 +64,20 @@ body {
 	z-index: 101;
 	bottom: 0;
 	right: 0;
+}
+
+#construction-frame {
+	position: absolute;
+	z-index: 101;
+	bottom: 0;
+	left: 245px;
+}
+
+.constructions {
+	position: absolute;
+    bottom: 10px;
+    left: 260px;
+    width: 445px;
+    height: 120px;
+	z-index: 102;
 }

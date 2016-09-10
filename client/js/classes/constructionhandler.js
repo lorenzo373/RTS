@@ -1,6 +1,7 @@
 class ConstructionHandler {
     constructor() {
         this.constructions = [];
+        this.selectedConstruction = "";
 
         this.loadConstructions();
     }
@@ -19,7 +20,7 @@ class ConstructionHandler {
                 var constructionArray = Object.keys(output).map(function(key) {
                     //little bit of a workaround to add the name of the construction to the array
                     var outputArray = output[key];
-                    outputArray["name"] = key;
+                    outputArray["identifier"] = key;
 
                     return outputArray;
                 });
@@ -28,7 +29,7 @@ class ConstructionHandler {
                     callback(constructionArray[index]);
 
                     if (index == constructionArray.length - 1) {
-                        //TODO: if we finished looping through all constructions, initialize the construction menu
+                        Game.GUI.loadConstructions();
                     }
                 }
             }
@@ -38,13 +39,6 @@ class ConstructionHandler {
     }
 
     parseConstruction(yaml) {
-        //generate menu sprite
-        /*var editpic = game.make.sprite(0, 0, yaml.sprite);
-
-        if (yaml.isTileable) {
-            editpic.crop(new Phaser.Rectangle(0, 0, tileSize, tileSize));
-        }*/
-
-        Game.ConstructionHandler.constructions.push(new Construction(yaml.sprite, yaml.cost));
+        Game.ConstructionHandler.constructions.push(new Construction(yaml.identifier, yaml.name, yaml.sprite, yaml.cost));
     }
 }
