@@ -76,7 +76,7 @@ class Map {
 
         setTimeout(function() {
             // Load minimap
-            Game.GUI.renderMinimap();
+            Game.GUI.Minimap.render();
         }, 100);
     }
 
@@ -135,8 +135,12 @@ class Map {
                         if(rect.left+offsetX-4 <= e.clientX && e.clientX <= rect.left+offsetX-4+75 && rect.top+12 <= e.clientY && e.clientY <= rect.top+12+75 ) {
                             var constructionObj = Game.ConstructionHandler.constructions[construction];
 
-                            Game.ConstructionHandler.selectedConstruction = constructionObj;
-                            Game.GUI.renderConstructions();
+                            if (Game.ConstructionHandler.selectedConstruction == constructionObj) {
+                                Game.ConstructionHandler.selectedConstruction = "";
+                            } else {
+                                Game.ConstructionHandler.selectedConstruction = constructionObj;
+                            }
+                            Game.GUI.Constructions.render();
                             break;
                         }
 

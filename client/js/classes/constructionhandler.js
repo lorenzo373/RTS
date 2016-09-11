@@ -29,7 +29,7 @@ class ConstructionHandler {
                     callback(constructionArray[index]);
 
                     if (index == constructionArray.length - 1) {
-                        Game.GUI.loadConstructions();
+                        Game.GUI.Constructions = new Constructions();
                     }
                 }
             }
